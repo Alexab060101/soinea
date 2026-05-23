@@ -99,10 +99,10 @@ header.scrolled .burger{background:var(--cream)}
    z-index:2 para ir encima de la foto, sin mix-blend (caro en GPU). */
 .hero-bg::before,.hero-bg::after{content:'';position:absolute;inset:-12%;
   will-change:transform;pointer-events:none;z-index:2}
-.hero-bg::before{background:radial-gradient(40% 46% at 28% 32%,rgba(248,232,196,.88),rgba(248,232,196,.15) 50%,transparent 75%);
-  animation:fogA 30s ease-in-out infinite alternate;filter:blur(40px)}
-.hero-bg::after{background:radial-gradient(44% 40% at 74% 68%,rgba(168,200,160,.72),rgba(168,200,160,.12) 52%,transparent 76%);
-  animation:fogB 38s ease-in-out infinite alternate;filter:blur(50px)}
+.hero-bg::before{background:radial-gradient(48% 54% at 28% 32%,rgba(248,232,196,.78),rgba(248,232,196,.18) 38%,transparent 70%);
+  animation:fogA 30s ease-in-out infinite alternate}
+.hero-bg::after{background:radial-gradient(52% 48% at 74% 68%,rgba(168,200,160,.62),rgba(168,200,160,.14) 40%,transparent 72%);
+  animation:fogB 38s ease-in-out infinite alternate}
 @keyframes fogA{0%{transform:translate(0,0) scale(1)}100%{transform:translate(14%,8%) scale(1.18)}}
 @keyframes fogB{0%{transform:translate(0,0) scale(1.05)}100%{transform:translate(-12%,-7%) scale(1.22)}}
 .hero-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;z-index:1;
@@ -123,9 +123,8 @@ header.scrolled .burger{background:var(--cream)}
 .hero.in h1{opacity:1}
 .hero-line{display:block}
 .hero-line.clay{color:var(--clay-soft)}
-.gly{display:inline-block;font-variation-settings:'wght' 680;
-  animation:breathe 4.4s ease-in-out infinite}
-@keyframes breathe{0%,100%{font-variation-settings:'wght' 680}50%{font-variation-settings:'wght' 300}}
+.gly{display:inline-block;font-variation-settings:'wght' 680}
+/* breathe animation removed: layout-thrash en cada frame por 17 glyphs del h1 */
 /* pause-on-offscreen (via IntersectionObserver en motion.js) */
 [data-paused="true"] .gly,
 [data-paused="true"] .marquee-track,
