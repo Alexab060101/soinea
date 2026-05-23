@@ -520,7 +520,7 @@
       '<div class="rm" id="rmDone"><div class="rm-box"><div class="rm-done">'+
         '<div class="ic">✓</div><h3>Demande envoyée</h3>'+
         '<p>Andrea a reçu votre demande et vous confirme le créneau sous 24 heures.</p>'+
-        '<div class="acts"><a href="/andrea-agudelo.02/index.html" class="a1">Accueil</a>'+
+        '<div class="acts"><a href="/index.html" class="a1">Accueil</a>'+
         '<a class="a2" data-rmclose href="#">Fermer</a></div></div></div></div>';
     document.body.appendChild(root);
 
