@@ -124,8 +124,15 @@ header.scrolled .burger{background:var(--cream)}
 .hero-line{display:block}
 .hero-line.clay{color:var(--clay-soft)}
 .gly{display:inline-block;font-variation-settings:'wght' 680;
-  animation:breathe 4.4s ease-in-out infinite;will-change:font-variation-settings}
+  animation:breathe 4.4s ease-in-out infinite}
 @keyframes breathe{0%,100%{font-variation-settings:'wght' 680}50%{font-variation-settings:'wght' 300}}
+/* pause-on-offscreen (via IntersectionObserver en motion.js) */
+[data-paused="true"] .gly,
+[data-paused="true"] .marquee-track,
+[data-paused="true"] .testi-track,
+.hero[data-paused="true"] .hero-bg::before,
+.hero[data-paused="true"] .hero-bg::after,
+.hero[data-paused="true"] .hero-bg img{animation-play-state:paused}
 .hero-sub{font-size:1.1rem;line-height:1.55;color:rgba(244,238,226,0.88);max-width:440px;
   margin:0 auto 32px;opacity:0;transform:translateY(20px);
   transition:opacity .9s ease .4s,transform .9s ease .4s}

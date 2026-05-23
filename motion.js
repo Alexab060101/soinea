@@ -2,12 +2,19 @@
 (function(){
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* police variable (titre qui respire) */
-  (function(){
-    var gf = document.querySelector('link[href*="Space+Grotesk"]');
-    if (gf && gf.href.indexOf('300..700') === -1)
-      gf.href = gf.href.replace(/Space\+Grotesk:wght@[^&]+/, 'Space+Grotesk:wght@300..700');
-  })();
+  /* pausa CSS animations cuando el elemento sale del viewport
+     (ahorra GPU/CPU sin alterar el comportamiento visible) */
+  if(!reduce && 'IntersectionObserver' in window){
+    var pauseObs = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        e.target.dataset.paused = e.isIntersecting ? '' : 'true';
+      });
+    },{rootMargin:'120px 0px'});
+    /* selectores con animations continuas e infinitas */
+    document.querySelectorAll('.hero,.marquee,.testi-panel,.testi-marquee').forEach(function(el){
+      pauseObs.observe(el);
+    });
+  }
 
   /* hero */
   var hero = document.querySelector('.hero');
