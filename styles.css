@@ -95,16 +95,17 @@ header.scrolled .burger{background:var(--cream)}
 .hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden;
   background:linear-gradient(165deg,#9c8c6a,#6f6149)}
 .hero-bg canvas{display:block}
-/* brume CSS : dos focos de luz que derivan lento (sustituye Vanta/WebGL) */
+/* brume CSS : dos focos de luz que derivan lento (sustituye Vanta/WebGL).
+   z-index:2 + mix-blend para que la niebla se note ENCIMA del Ken Burns. */
 .hero-bg::before,.hero-bg::after{content:'';position:absolute;inset:-32%;
-  will-change:transform;pointer-events:none}
-.hero-bg::before{background:radial-gradient(42% 46% at 32% 34%,rgba(220,205,166,.72),transparent 70%);
-  animation:fogA 34s ease-in-out infinite alternate}
-.hero-bg::after{background:radial-gradient(46% 42% at 70% 66%,rgba(138,155,130,.58),transparent 72%);
-  animation:fogB 46s ease-in-out infinite alternate}
-@keyframes fogA{to{transform:translate(8%,6%) scale(1.16)}}
-@keyframes fogB{to{transform:translate(-7%,-5%) scale(1.2)}}
-.hero-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
+  will-change:transform;pointer-events:none;z-index:2;mix-blend-mode:screen}
+.hero-bg::before{background:radial-gradient(42% 46% at 32% 34%,rgba(238,222,184,.92),transparent 72%);
+  animation:fogA 28s ease-in-out infinite alternate}
+.hero-bg::after{background:radial-gradient(46% 42% at 70% 66%,rgba(168,190,160,.82),transparent 74%);
+  animation:fogB 36s ease-in-out infinite alternate}
+@keyframes fogA{to{transform:translate(12%,9%) scale(1.22)}}
+@keyframes fogB{to{transform:translate(-11%,-7%) scale(1.26)}}
+.hero-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;z-index:1;
   transition:opacity 1.7s ease;animation:kenburns 26s ease-in-out infinite alternate}
 .hero-bg img.active{opacity:1}
 .hero-bg img:only-child{opacity:1}
@@ -454,8 +455,9 @@ header.head-bar{view-transition-name:site-header}
 .testi-marquee{overflow:hidden;width:100%;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
-.testi-track{display:flex;gap:14px;width:max-content;padding:0 14px;
+.testi-track{display:flex;gap:0;width:max-content;padding:0;
   animation:testiSlide 42s linear infinite}
+.testi-set{display:flex;gap:14px;padding-right:14px;flex-shrink:0}
 @media(hover:hover){
   .testi-marquee:hover .testi-track{animation-play-state:paused}
 }

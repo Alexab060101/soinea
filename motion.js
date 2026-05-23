@@ -361,9 +361,14 @@
       },{passive:true});
 
       var si=0;
+      function buildSet(ariaHidden){
+        var set=document.createElement('div'); set.className='testi-set';
+        if(ariaHidden) set.setAttribute('aria-hidden','true');
+        reviews.forEach(function(c){ set.appendChild(c.cloneNode(true)); });
+        return set;
+      }
       function render(){
         grid.innerHTML='';
-        reviews.forEach(function(c){ grid.appendChild(c); });
         mtrack.innerHTML=''; mdots.innerHTML='';
         reviews.forEach(function(c,idx){
           var rc=c.cloneNode(true); rc.removeAttribute('aria-hidden');
@@ -371,16 +376,17 @@
           var d=document.createElement('b'); if(idx===0) d.className='on'; mdots.appendChild(d);
         });
         if(reviews.length>=2){
-          reviews.forEach(function(c){
-            var cl=c.cloneNode(true); cl.setAttribute('aria-hidden','true'); grid.appendChild(cl);
-          });
+          /* dos sets idénticos = bucle infinito sin huecos al translatear -50% */
+          grid.appendChild(buildSet(false));
+          grid.appendChild(buildSet(true));
           grid.style.animation='testiSlide '+(reviews.length*7)+'s linear infinite';
           grid.classList.remove('testi-static');
         }else{
+          reviews.forEach(function(c){ grid.appendChild(c); });
           grid.style.animation='none';
           grid.classList.add('testi-static');
         }
-        [].forEach.call(grid.children,function(c,idx){
+        [].forEach.call(grid.querySelectorAll('.t-card'),function(c,idx){
           c.onclick=function(){ openModal(idx%reviews.length); };
         });
       }
