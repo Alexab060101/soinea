@@ -376,10 +376,19 @@
           var d=document.createElement('b'); if(idx===0) d.className='on'; mdots.appendChild(d);
         });
         if(reviews.length>=2){
-          /* dos sets idénticos = bucle infinito sin huecos al translatear -50% */
+          /* relleno hasta que el track tenga >= 2.2x el viewport, en pares
+             para que translate(-50%) loop sin huecos */
           grid.appendChild(buildSet(false));
           grid.appendChild(buildSet(true));
-          grid.style.animation='testiSlide '+(reviews.length*7)+'s linear infinite';
+          var pairs=1, vw=window.innerWidth||1400, safety=8;
+          while(grid.scrollWidth < vw*2.2 && pairs<safety){
+            grid.appendChild(buildSet(true));
+            grid.appendChild(buildSet(true));
+            pairs++;
+          }
+          /* velocidad constante ~70px/s, escala con el ancho total */
+          var dur=Math.max(22, Math.round((grid.scrollWidth/2)/70));
+          grid.style.animation='testiSlide '+dur+'s linear infinite';
           grid.classList.remove('testi-static');
         }else{
           reviews.forEach(function(c){ grid.appendChild(c); });
@@ -390,6 +399,10 @@
           c.onclick=function(){ openModal(idx%reviews.length); };
         });
       }
+      window.addEventListener('resize',function(){
+        clearTimeout(window.__testiRz);
+        window.__testiRz=setTimeout(render,200);
+      });
       addBtn.addEventListener('click',function(){
         var s=SAMPLES[si%SAMPLES.length], a=AV[si%AV.length]; si++;
         var card=document.createElement('div'); card.className='t-card';
