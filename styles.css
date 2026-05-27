@@ -48,7 +48,7 @@ header.scrolled .logo .mark.svg-mark{background:none;width:56px;height:46px}
   header.scrolled .logo .mark.svg-mark{width:50px;height:42px}
   .foot-grid .flogo .mark.svg-mark{width:56px;height:46px}
 }
-.logo .n{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.16rem;line-height:1}
+.logo .n{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.16rem;line-height:1;color:var(--clay)}
 .logo .t{font-size:0.58rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--grey);
   margin-top:4px;display:block}
 .nav-right{display:flex;align-items:center;gap:16px}
@@ -683,4 +683,13 @@ header.head-bar{view-transition-name:site-header}
   .booking{padding:80px 6vw}
   .trust{padding:64px 0}
   .section-head{margin-bottom:38px}
+}
+
+/* ===== Performance: content-visibility para skipear render offscreen ===== */
+/* El navegador no calcula layout/paint de estas secciones hasta que entran
+   en viewport. Reduce LCP y mejora scroll. NO aplicar a .hero ni .hpin
+   (sticky/scroll horizontal lo necesitan calculado). */
+.testi,.faq,.process,.trust,.booking,footer{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 600px;
 }

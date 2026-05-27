@@ -66,7 +66,7 @@
   window.addEventListener('scroll', function(){
     if(scrTk) return; scrTk=true;
     requestAnimationFrame(function(){ onScroll(); scrTk=false; });
-  }, {passive:true});
+  },{passive:true});
   onScroll();
 
   /* hamburger */
@@ -127,7 +127,7 @@
       btn.addEventListener('mousemove',function(e){
         var r=btn.getBoundingClientRect();
         btn.style.transform='translate('+((e.clientX-(r.left+r.width/2))*0.22)+'px,'+((e.clientY-(r.top+r.height/2))*0.32)+'px)';
-      });
+      },{passive:true});
       btn.addEventListener('mouseleave',function(){btn.style.transform='';});
     });
   }
@@ -136,7 +136,7 @@
   if(!reduce && !window.matchMedia('(pointer:coarse)').matches && window.innerWidth>900){
     var cur=document.createElement('div'); cur.className='cursor'; document.body.appendChild(cur);
     var mx=0,my=0,cx=0,cy=0,on=false;
-    document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;if(!on){on=true;cur.classList.add('on');}});
+    document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;if(!on){on=true;cur.classList.add('on');}},{passive:true});
     document.addEventListener('mouseleave',function(){on=false;cur.classList.remove('on');});
     (function loop(){cx+=(mx-cx)*0.2;cy+=(my-cy)*0.2;
       cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';
@@ -742,6 +742,17 @@
       speed: 0.7,
       zoom: 1.4
     });
-    if (fog) el.classList.add('has-vanta');
+    if (fog) {
+      el.classList.add('has-vanta');
+      /* pausa speed cuando hero sale del viewport: ahorra GPU sin destruir */
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function(es){
+          es.forEach(function(e){
+            if (fog && fog.options) fog.options.speed = e.isIntersecting ? 0.7 : 0;
+          });
+        });
+        io.observe(el);
+      }
+    }
   } catch(e){}
 })();
