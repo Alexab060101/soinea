@@ -717,42 +717,62 @@
   })();
 })();
 
-/* Vanta FOG · config minimal (mouseControls/touchControls/gyroControls off,
-   blurFactor bajo, scaleMobile 0.5, speed 0.7). Fallback CSS si Vanta no carga. */
+/* Vanta FOG · solo se carga e inicializa en DESKTOP no-touch con suficiente
+   CPU/RAM. En móvil/touch ni se descargan Three+Vanta (~250 KB gzip menos)
+   y se queda el gradient CSS animado (fogA/fogB) como fondo. */
 (function(){
-  if (typeof VANTA === 'undefined' || !VANTA.FOG) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var isTouch = window.matchMedia('(pointer:coarse)').matches;
+  var isSmall = window.innerWidth < 900;
+  var lowCpu  = (navigator.hardwareConcurrency || 4) < 4;
+  var lowMem  = (navigator.deviceMemory || 4) < 4;
+  if (isTouch || isSmall || lowCpu || lowMem) return;
   var el = document.getElementById('hero-glow');
   if (!el) return;
-  try {
-    var fog = VANTA.FOG({
-      el: el,
-      mouseControls: false,
-      touchControls: false,
-      gyroControls: false,
-      minHeight: 200,
-      minWidth: 200,
-      scale: 1,
-      scaleMobile: 0.5,
-      highlightColor: 0xc9b687,
-      midtoneColor: 0x9c8c6a,
-      lowlightColor: 0x6e7463,
-      baseColor: 0x352a1f,
-      blurFactor: 0.4,
-      speed: 0.7,
-      zoom: 1.4
+
+  function loadScript(src){
+    return new Promise(function(res, rej){
+      var s = document.createElement('script');
+      s.src = src; s.async = true;
+      s.onload = res; s.onerror = rej;
+      document.head.appendChild(s);
     });
-    if (fog) {
-      el.classList.add('has-vanta');
-      /* pausa speed cuando hero sale del viewport: ahorra GPU sin destruir */
-      if ('IntersectionObserver' in window) {
-        var io = new IntersectionObserver(function(es){
-          es.forEach(function(e){
-            if (fog && fog.options) fog.options.speed = e.isIntersecting ? 0.7 : 0;
+  }
+
+  loadScript('https://unpkg.com/three@0.134.0/build/three.min.js')
+  .then(function(){ return loadScript('https://unpkg.com/vanta@0.5.24/dist/vanta.fog.min.js'); })
+  .then(function(){
+    if (typeof VANTA === 'undefined' || !VANTA.FOG) return;
+    try {
+      var fog = VANTA.FOG({
+        el: el,
+        mouseControls: false,
+        touchControls: false,
+        gyroControls: false,
+        minHeight: 200,
+        minWidth: 200,
+        scale: 1,
+        scaleMobile: 0.5,
+        highlightColor: 0xc9b687,
+        midtoneColor: 0x9c8c6a,
+        lowlightColor: 0x6e7463,
+        baseColor: 0x352a1f,
+        blurFactor: 0.4,
+        speed: 0.7,
+        zoom: 1.4
+      });
+      if (fog) {
+        el.classList.add('has-vanta');
+        if ('IntersectionObserver' in window) {
+          var io = new IntersectionObserver(function(es){
+            es.forEach(function(e){
+              if (fog && fog.options) fog.options.speed = e.isIntersecting ? 0.7 : 0;
+            });
           });
-        });
-        io.observe(el);
+          io.observe(el);
+        }
       }
-    }
-  } catch(e){}
+    } catch(e){}
+  })
+  .catch(function(){ /* CDN down o adblocker: queda el gradient CSS */ });
 })();
