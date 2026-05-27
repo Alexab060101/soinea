@@ -763,13 +763,30 @@
           zoom: mobile ? 2.0 : 1.4
         });
         if (!fog) return;
-        /* CLAVE: forzar pixelRatio=1 en Three.js renderer. Sin esto, en pantallas
-           con DPR alto (S22 Ultra DPR 3.5, iPhone DPR 3) el canvas renderiza
-           millones de pixels más de lo necesario. Reduce GPU ~70% en flagships. */
+        /* CLAVE en móvil: forzar el canvas físico a tamaño bajo y dejar CSS
+           que lo estire. Vanta por defecto renderiza al tamaño completo del
+           viewport (S22 Ultra: 3088x1440 = 4.4M pixels), GPU explota.
+           Con un canvas de 480x270 (130K pixels) la GPU procesa 30x menos
+           y visualmente no se nota porque el efecto está difuminado. */
         try {
           if (fog.renderer && fog.renderer.setPixelRatio) {
             fog.renderer.setPixelRatio(1);
-            if (fog.onResize) fog.onResize();
+          }
+          if (mobile && fog.renderer && fog.renderer.setSize) {
+            /* false = no actualizar style (deja que CSS controle width/height) */
+            fog.renderer.setSize(480, 270, false);
+            if (fog.renderer.domElement){
+              fog.renderer.domElement.style.width = '100%';
+              fog.renderer.domElement.style.height = '100%';
+            }
+            /* sobreescribir resize para que no vuelva a tamaño grande */
+            fog.resize = function(){
+              if (fog.renderer && fog.renderer.setSize){
+                fog.renderer.setSize(480, 270, false);
+              }
+            };
+          } else if (fog.onResize){
+            fog.onResize();
           }
         } catch(e){}
         el.classList.add('has-vanta');
