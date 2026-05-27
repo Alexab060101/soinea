@@ -722,13 +722,16 @@
    y se queda el gradient CSS animado (fogA/fogB) como fondo. */
 (function(){
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var isTouch = window.matchMedia('(pointer:coarse)').matches;
-  var isSmall = window.innerWidth < 900;
-  var lowCpu  = (navigator.hardwareConcurrency || 4) < 4;
-  var lowMem  = (navigator.deviceMemory || 4) < 4;
-  if (isTouch || isSmall || lowCpu || lowMem) return;
+  /* solo descartamos casos extremos donde Vanta es seguro que crashea */
+  var veryLowCpu = (navigator.hardwareConcurrency || 4) <= 2;
+  var veryLowMem = (navigator.deviceMemory || 4) < 2;
+  if (veryLowCpu || veryLowMem) return;
   var el = document.getElementById('hero-glow');
   if (!el) return;
+  /* en móvil/touch usamos config ULTRA light para no crashear */
+  var isTouch = window.matchMedia('(pointer:coarse)').matches;
+  var isSmall = window.innerWidth < 900;
+  var mobile = isTouch || isSmall;
 
   function loadScript(src){
     return new Promise(function(res, rej){
@@ -751,15 +754,15 @@
         gyroControls: false,
         minHeight: 200,
         minWidth: 200,
-        scale: 1,
-        scaleMobile: 0.5,
+        scale: mobile ? 0.5 : 1,
+        scaleMobile: 0.35,
         highlightColor: 0xc9b687,
         midtoneColor: 0x9c8c6a,
         lowlightColor: 0x6e7463,
         baseColor: 0x352a1f,
-        blurFactor: 0.4,
-        speed: 0.7,
-        zoom: 1.4
+        blurFactor: mobile ? 0.25 : 0.4,
+        speed: mobile ? 0.5 : 0.7,
+        zoom: mobile ? 1.6 : 1.4
       });
       if (fog) {
         el.classList.add('has-vanta');
