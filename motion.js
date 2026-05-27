@@ -738,8 +738,10 @@
   }
 
   function initVanta(){
-    loadScript('https://unpkg.com/three@0.134.0/build/three.min.js')
-    .then(function(){ return loadScript('https://unpkg.com/vanta@0.5.24/dist/vanta.fog.min.js'); })
+    /* Three+Vanta autohosteados en /assets/ (no CDN externo).
+       Sin handshake TLS a unpkg, HTTP/2 multiplexado por Vercel = arranque <400ms */
+    loadScript('/assets/three.min.js')
+    .then(function(){ return loadScript('/assets/vanta.fog.min.js'); })
     .then(function(){
       if (typeof VANTA === 'undefined' || !VANTA.FOG) return;
       try {
@@ -799,7 +801,7 @@
     .catch(function(){ /* CDN down o adblocker: queda el gradient CSS */ });
   }
 
-  /* arranca Vanta DESPUÉS de window.load para no competir con el first paint */
-  if (document.readyState === 'complete') initVanta();
-  else window.addEventListener('load', initVanta);
+  /* arranca Vanta cuanto antes (assets son locales, ligeros para el navegador) */
+  if (document.readyState !== 'loading') initVanta();
+  else document.addEventListener('DOMContentLoaded', initVanta);
 })();
