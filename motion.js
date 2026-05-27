@@ -716,17 +716,8 @@
    y se queda el gradient CSS animado (fogA/fogB) como fondo. */
 (function(){
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var veryLowCpu = (navigator.hardwareConcurrency || 4) <= 2;
-  var veryLowMem = (navigator.deviceMemory || 4) < 2;
-  if (veryLowCpu || veryLowMem) return;
   var el = document.getElementById('hero-glow');
   if (!el) return;
-
-  var isTouch = window.matchMedia('(pointer:coarse)').matches;
-  var isSmall = window.innerWidth < 900;
-  var mobile = isTouch || isSmall;
-  /* speed activo: a partir de aquí podemos pausarlo bajando speed o cancelando rAF */
-  var liveSpeed = mobile ? 0.5 : 0.7;
 
   function loadScript(src){
     return new Promise(function(res, rej){
@@ -738,8 +729,6 @@
   }
 
   function initVanta(){
-    /* Three+Vanta autohosteados en /assets/ (no CDN externo).
-       Sin handshake TLS a unpkg, HTTP/2 multiplexado por Vercel = arranque <400ms */
     loadScript('/assets/three.min.js')
     .then(function(){ return loadScript('/assets/vanta.fog.min.js'); })
     .then(function(){
@@ -752,74 +741,32 @@
           gyroControls: false,
           minHeight: 200,
           minWidth: 200,
-          scale: mobile ? 0.3 : 1,
-          scaleMobile: 0.25,
+          scale: 1,
+          scaleMobile: 1,
           highlightColor: 0xc9b687,
           midtoneColor: 0x9c8c6a,
           lowlightColor: 0x6e7463,
           baseColor: 0x352a1f,
-          blurFactor: mobile ? 0.15 : 0.4,
-          speed: liveSpeed,
-          zoom: mobile ? 2.0 : 1.4
+          blurFactor: 0.4,
+          speed: 0.7,
+          zoom: 1.4
         });
         if (!fog) return;
-        /* móvil: canvas físico a 320x180 (57K pixels) y cap a 30fps via animate
-           override. CSS lo estira al 100%. Sin esto, Vanta renderiza 4.4M pixels
-           a 120 fps en S22 Ultra = imposible de mantener. Aquí: ~1.7M cálculos/s.
-           Visualmente igual porque el fog está totalmente difuminado. */
+        /* única optimización: pixelRatio=1 evita que en pantallas con DPR>1
+           el canvas físico se multiplique. */
         try {
           if (fog.renderer && fog.renderer.setPixelRatio) {
             fog.renderer.setPixelRatio(1);
-          }
-          if (mobile && fog.renderer && fog.renderer.setSize) {
-            fog.renderer.setSize(320, 180, false);
-            if (fog.renderer.domElement){
-              fog.renderer.domElement.style.width = '100%';
-              fog.renderer.domElement.style.height = '100%';
-              fog.renderer.domElement.style.opacity = '0';
-              fog.renderer.domElement.style.transition = 'opacity 800ms ease';
-            }
-            fog.resize = function(){
-              if (fog.renderer && fog.renderer.setSize){
-                fog.renderer.setSize(320, 180, false);
-              }
-            };
-            /* cap a ~30fps en móvil: skip uno de cada dos rAF */
-            var origAnimate = fog.animate && fog.animate.bind(fog);
-            if (origAnimate){
-              var tick = 0;
-              fog.animate = function(){
-                tick++;
-                if (tick % 2 === 0){
-                  fog.req = requestAnimationFrame(fog.animate);
-                  return;
-                }
-                origAnimate();
-              };
-            }
-          } else if (fog.onResize){
-            fog.onResize();
+            if (fog.onResize) fog.onResize();
           }
         } catch(e){}
         el.classList.add('has-vanta');
-        /* fade-in suave del canvas para que NO se note el cambio gradient→Vanta */
-        requestAnimationFrame(function(){
-          requestAnimationFrame(function(){
-            if (fog.renderer && fog.renderer.domElement){
-              fog.renderer.domElement.style.opacity = '1';
-            }
-          });
-        });
 
-        /* pausa REAL (cancelAnimationFrame) cuando hero offscreen */
         function pauseFog(){
           if (fog.req){ cancelAnimationFrame(fog.req); fog.req = null; }
         }
         function resumeFog(){
-          if (!fog.req && fog.animate){
-            fog.options.speed = liveSpeed;
-            fog.animate();
-          }
+          if (!fog.req && fog.animate){ fog.animate(); }
         }
         if ('IntersectionObserver' in window){
           var io = new IntersectionObserver(function(es){
@@ -827,18 +774,15 @@
           });
           io.observe(el);
         }
-        /* pausa también al cambiar de pestaña (visibility API). El navegador
-           ya baja rAF en background pero esto lo corta a cero garantizado. */
         document.addEventListener('visibilitychange', function(){
           if (document.hidden) pauseFog();
-          else if (!document.hidden) resumeFog();
+          else resumeFog();
         });
       } catch(e){}
     })
-    .catch(function(){ /* CDN down o adblocker: queda el gradient CSS */ });
+    .catch(function(){});
   }
 
-  /* arranca Vanta cuanto antes (assets son locales, ligeros para el navegador) */
   if (document.readyState !== 'loading') initVanta();
   else document.addEventListener('DOMContentLoaded', initVanta);
 })();
