@@ -666,8 +666,10 @@
         'Spécialité : '+st.soin.nm+'\nPrestation : '+st.treat.nm+'\n'+
         'Lieu : '+st.soin.lu+'\nDate : '+st.dateLabel+'\nHeure : '+st.time+'\n'+
         'Tarif : '+st.treat.pr+'\n\nNom : '+nom+'\nTéléphone : '+tel;
-      window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+      window.open('https://wa.me/41762306459?text='+encodeURIComponent(txt),'_blank');
       show('done');
+      /* redirige a la página d'agradecimiento con info "comment venir" */
+      setTimeout(function(){ window.location.href='/merci.html'; }, 700);
     });
 
     /* rejilla de soins (página reservas) */
