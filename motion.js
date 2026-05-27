@@ -716,16 +716,17 @@
    y se queda el gradient CSS animado (fogA/fogB) como fondo. */
 (function(){
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  /* solo descartamos casos extremos donde Vanta es seguro que crashea */
   var veryLowCpu = (navigator.hardwareConcurrency || 4) <= 2;
   var veryLowMem = (navigator.deviceMemory || 4) < 2;
   if (veryLowCpu || veryLowMem) return;
   var el = document.getElementById('hero-glow');
   if (!el) return;
-  /* en móvil/touch usamos config ULTRA light para no crashear */
+
   var isTouch = window.matchMedia('(pointer:coarse)').matches;
   var isSmall = window.innerWidth < 900;
   var mobile = isTouch || isSmall;
+  /* speed activo: a partir de aquí podemos pausarlo bajando speed o cancelando rAF */
+  var liveSpeed = mobile ? 0.5 : 0.7;
 
   function loadScript(src){
     return new Promise(function(res, rej){
@@ -736,40 +737,69 @@
     });
   }
 
-  loadScript('https://unpkg.com/three@0.134.0/build/three.min.js')
-  .then(function(){ return loadScript('https://unpkg.com/vanta@0.5.24/dist/vanta.fog.min.js'); })
-  .then(function(){
-    if (typeof VANTA === 'undefined' || !VANTA.FOG) return;
-    try {
-      var fog = VANTA.FOG({
-        el: el,
-        mouseControls: false,
-        touchControls: false,
-        gyroControls: false,
-        minHeight: 200,
-        minWidth: 200,
-        scale: mobile ? 0.5 : 1,
-        scaleMobile: 0.35,
-        highlightColor: 0xc9b687,
-        midtoneColor: 0x9c8c6a,
-        lowlightColor: 0x6e7463,
-        baseColor: 0x352a1f,
-        blurFactor: mobile ? 0.25 : 0.4,
-        speed: mobile ? 0.5 : 0.7,
-        zoom: mobile ? 1.6 : 1.4
-      });
-      if (fog) {
+  function initVanta(){
+    loadScript('https://unpkg.com/three@0.134.0/build/three.min.js')
+    .then(function(){ return loadScript('https://unpkg.com/vanta@0.5.24/dist/vanta.fog.min.js'); })
+    .then(function(){
+      if (typeof VANTA === 'undefined' || !VANTA.FOG) return;
+      try {
+        var fog = VANTA.FOG({
+          el: el,
+          mouseControls: false,
+          touchControls: false,
+          gyroControls: false,
+          minHeight: 200,
+          minWidth: 200,
+          scale: mobile ? 0.3 : 1,
+          scaleMobile: 0.25,
+          highlightColor: 0xc9b687,
+          midtoneColor: 0x9c8c6a,
+          lowlightColor: 0x6e7463,
+          baseColor: 0x352a1f,
+          blurFactor: mobile ? 0.15 : 0.4,
+          speed: liveSpeed,
+          zoom: mobile ? 2.0 : 1.4
+        });
+        if (!fog) return;
+        /* CLAVE: forzar pixelRatio=1 en Three.js renderer. Sin esto, en pantallas
+           con DPR alto (S22 Ultra DPR 3.5, iPhone DPR 3) el canvas renderiza
+           millones de pixels más de lo necesario. Reduce GPU ~70% en flagships. */
+        try {
+          if (fog.renderer && fog.renderer.setPixelRatio) {
+            fog.renderer.setPixelRatio(1);
+            if (fog.onResize) fog.onResize();
+          }
+        } catch(e){}
         el.classList.add('has-vanta');
-        if ('IntersectionObserver' in window) {
+
+        /* pausa REAL (cancelAnimationFrame) cuando hero offscreen */
+        function pauseFog(){
+          if (fog.req){ cancelAnimationFrame(fog.req); fog.req = null; }
+        }
+        function resumeFog(){
+          if (!fog.req && fog.animate){
+            fog.options.speed = liveSpeed;
+            fog.animate();
+          }
+        }
+        if ('IntersectionObserver' in window){
           var io = new IntersectionObserver(function(es){
-            es.forEach(function(e){
-              if (fog && fog.options) fog.options.speed = e.isIntersecting ? 0.7 : 0;
-            });
+            es.forEach(function(e){ e.isIntersecting ? resumeFog() : pauseFog(); });
           });
           io.observe(el);
         }
-      }
-    } catch(e){}
-  })
-  .catch(function(){ /* CDN down o adblocker: queda el gradient CSS */ });
+        /* pausa también al cambiar de pestaña (visibility API). El navegador
+           ya baja rAF en background pero esto lo corta a cero garantizado. */
+        document.addEventListener('visibilitychange', function(){
+          if (document.hidden) pauseFog();
+          else if (!document.hidden) resumeFog();
+        });
+      } catch(e){}
+    })
+    .catch(function(){ /* CDN down o adblocker: queda el gradient CSS */ });
+  }
+
+  /* arranca Vanta DESPUÉS de window.load para no competir con el first paint */
+  if (document.readyState === 'complete') initVanta();
+  else window.addEventListener('load', initVanta);
 })();
