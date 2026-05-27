@@ -20,7 +20,8 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacin
 body::before{content:'';position:fixed;inset:0;z-index:500;pointer-events:none;opacity:0.04;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-.progress{position:fixed;top:0;left:0;height:3px;width:0%;background:var(--clay);z-index:300}
+.progress{position:fixed;top:0;left:0;height:3px;width:100%;background:var(--clay);z-index:300;
+  transform:scaleX(0);transform-origin:0 0;will-change:transform}
 .demo-badge{position:fixed;top:78px;left:50%;transform:translateX(-50%);background:var(--ink);
   color:var(--paper);padding:7px 18px;font-size:0.62rem;font-weight:500;letter-spacing:0.2em;
   text-transform:uppercase;z-index:120;white-space:nowrap}
@@ -100,8 +101,9 @@ header.scrolled .burger{background:var(--cream)}
 }
 
 /* ===== Hero plein écran ===== */
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;
-  padding:140px 5vw 140px;background:var(--dark);color:var(--paper);overflow:hidden;isolation:isolate}
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;
+  padding:140px 5vw 140px;background:var(--dark);color:var(--paper);overflow:hidden;isolation:isolate;
+  contain:layout style paint}
 /* fondo plano oscuro mientras Vanta carga (no animaciones pesadas detrás) */
 .hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden;background:#1E1A16}
 .hero-bg canvas{display:block}
@@ -686,13 +688,19 @@ header.head-bar{view-transition-name:site-header}
 
 /* ===== Performance móvil ===== */
 @media(max-width:760px){
+  /* grain SVG fixed z-index:500: en móvil se repintaba SOBRE el hero entero
+     cada frame que Vanta cambiaba (= cada frame). Responsable nº1 del lag. */
+  body::before{display:none}
+  /* scroll-cue oculta en móvil: la animación cue 2.2s infinite ya no gasta */
+  .scroll-cue{display:none}
   /* backdrop-filter blur es de los efectos más caros en GPU móvil cada vez
      que el contenido detrás se mueve. En móvil sustituimos por opacidad sólida. */
   header.scrolled{backdrop-filter:none;background:rgba(252,249,243,0.98)}
   .sticky-cta{backdrop-filter:none;background:rgba(252,249,243,0.98)}
-  /* el .booking::before es un blob decorativo grande: aún más ligero en móvil */
   .booking::before{opacity:0.6}
 }
+/* menu-overlay siempre en DOM: cuando cerrado no debe pintar nada */
+.menu-overlay:not(.open){visibility:hidden;content-visibility:hidden}
 /* reduced-motion: ampliamos selectores para incluir cue y testi-track */
 @media(prefers-reduced-motion:reduce){
   .scroll-cue .line::after,.testi-track,.marquee-track{animation:none}

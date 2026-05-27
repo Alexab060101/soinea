@@ -59,7 +59,8 @@
     if (header) header.classList.toggle('scrolled', window.scrollY>40);
     if (progress){
       var h = document.documentElement.scrollHeight - window.innerHeight;
-      progress.style.width = (h>0 ? (window.scrollY/h)*100 : 0)+'%';
+      var p = h>0 ? (window.scrollY/h) : 0;
+      progress.style.transform = 'scaleX('+p+')';
     }
   }
   var scrTk=false;
@@ -158,8 +159,10 @@
     });
   });
 
-  /* parallax suave del texto del hero (sale al hacer scroll) */
-  if(!reduce){
+  /* parallax suave del texto del hero (sale al hacer scroll).
+     SOLO desktop: en móvil el scroll natural ya da el efecto y este handler
+     añade coste por frame innecesario. */
+  if(!reduce && window.innerWidth>900){
     var hText=document.querySelector('.hero-text'), tk=false;
     function pframe(){
       var y=window.scrollY, vh=window.innerHeight;
