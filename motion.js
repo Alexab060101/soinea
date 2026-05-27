@@ -763,33 +763,53 @@
           zoom: mobile ? 2.0 : 1.4
         });
         if (!fog) return;
-        /* CLAVE en móvil: forzar el canvas físico a tamaño bajo y dejar CSS
-           que lo estire. Vanta por defecto renderiza al tamaño completo del
-           viewport (S22 Ultra: 3088x1440 = 4.4M pixels), GPU explota.
-           Con un canvas de 480x270 (130K pixels) la GPU procesa 30x menos
-           y visualmente no se nota porque el efecto está difuminado. */
+        /* móvil: canvas físico a 320x180 (57K pixels) y cap a 30fps via animate
+           override. CSS lo estira al 100%. Sin esto, Vanta renderiza 4.4M pixels
+           a 120 fps en S22 Ultra = imposible de mantener. Aquí: ~1.7M cálculos/s.
+           Visualmente igual porque el fog está totalmente difuminado. */
         try {
           if (fog.renderer && fog.renderer.setPixelRatio) {
             fog.renderer.setPixelRatio(1);
           }
           if (mobile && fog.renderer && fog.renderer.setSize) {
-            /* false = no actualizar style (deja que CSS controle width/height) */
-            fog.renderer.setSize(480, 270, false);
+            fog.renderer.setSize(320, 180, false);
             if (fog.renderer.domElement){
               fog.renderer.domElement.style.width = '100%';
               fog.renderer.domElement.style.height = '100%';
+              fog.renderer.domElement.style.opacity = '0';
+              fog.renderer.domElement.style.transition = 'opacity 800ms ease';
             }
-            /* sobreescribir resize para que no vuelva a tamaño grande */
             fog.resize = function(){
               if (fog.renderer && fog.renderer.setSize){
-                fog.renderer.setSize(480, 270, false);
+                fog.renderer.setSize(320, 180, false);
               }
             };
+            /* cap a ~30fps en móvil: skip uno de cada dos rAF */
+            var origAnimate = fog.animate && fog.animate.bind(fog);
+            if (origAnimate){
+              var tick = 0;
+              fog.animate = function(){
+                tick++;
+                if (tick % 2 === 0){
+                  fog.req = requestAnimationFrame(fog.animate);
+                  return;
+                }
+                origAnimate();
+              };
+            }
           } else if (fog.onResize){
             fog.onResize();
           }
         } catch(e){}
         el.classList.add('has-vanta');
+        /* fade-in suave del canvas para que NO se note el cambio gradient→Vanta */
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){
+            if (fog.renderer && fog.renderer.domElement){
+              fog.renderer.domElement.style.opacity = '1';
+            }
+          });
+        });
 
         /* pausa REAL (cancelAnimationFrame) cuando hero offscreen */
         function pauseFog(){
