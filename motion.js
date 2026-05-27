@@ -716,3 +716,32 @@
     if(q) openBooking(q);
   })();
 })();
+
+/* Vanta FOG · config minimal (mouseControls/touchControls/gyroControls off,
+   blurFactor bajo, scaleMobile 0.5, speed 0.7). Fallback CSS si Vanta no carga. */
+(function(){
+  if (typeof VANTA === 'undefined' || !VANTA.FOG) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var el = document.getElementById('hero-glow');
+  if (!el) return;
+  try {
+    var fog = VANTA.FOG({
+      el: el,
+      mouseControls: false,
+      touchControls: false,
+      gyroControls: false,
+      minHeight: 200,
+      minWidth: 200,
+      scale: 1,
+      scaleMobile: 0.5,
+      highlightColor: 0xc9b687,
+      midtoneColor: 0x9c8c6a,
+      lowlightColor: 0x6e7463,
+      baseColor: 0x352a1f,
+      blurFactor: 0.4,
+      speed: 0.7,
+      zoom: 1.4
+    });
+    if (fog) el.classList.add('has-vanta');
+  } catch(e){}
+})();
