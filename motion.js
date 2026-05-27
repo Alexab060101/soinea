@@ -438,10 +438,8 @@
         ph:P+'5793651/pexels-photo-5793651.jpeg?auto=compress&cs=tinysrgb&w=600'},
       {sl:'laser',nm:'Épilation laser',lu:'Cabinet MIC · Marly',pr:'dès 20 CHF',
         ph:P+'5619456/pexels-photo-5619456.jpeg?auto=compress&cs=tinysrgb&w=600'},
-      {sl:'massages',nm:'Massages thérapeutiques',lu:'CrossFit Poya · Granges-Paccot',pr:'dès 70 CHF',
-        ph:P+'6628611/pexels-photo-6628611.jpeg?auto=compress&cs=tinysrgb&w=600'},
-      {sl:'esthetique',nm:'Soins esthétiques',lu:'Sur demande',pr:'Sur devis',
-        ph:P+'16057715/pexels-photo-16057715.jpeg?auto=compress&cs=tinysrgb&w=600'}
+      {sl:'massages',nm:'Massages thérapeutiques',lu:'CrossFit Poya · Granges-Paccot',pr:'dès 60 CHF',
+        ph:P+'6628611/pexels-photo-6628611.jpeg?auto=compress&cs=tinysrgb&w=600'}
     ];
     var TREAT={
       'Podologie':[
@@ -472,23 +470,16 @@
         {nm:'Nez · oreilles',sub:'Homme',pr:'dès 20 CHF',ph:px('5069506'),
           de:'Épilation laser des poils du nez et des oreilles, en toute sécurité.'}],
       'Massages thérapeutiques':[
-        {nm:'Séance ciblée',sub:'30 min',pr:'70 CHF',ph:px('6628649'),
-          de:'30 minutes concentrées sur une zone tendue précise : nuque, dos ou jambes.'},
-        {nm:'Massage complet',sub:'60 min',pr:'120 CHF',ph:px('6628611'),
-          de:'Massage thérapeutique du corps entier pour relâcher les tensions. Reconnu ASCA.'},
-        {nm:'Massage approfondi',sub:'75 min',pr:'150 CHF',ph:px('6628701'),
-          de:'Travail en profondeur des tensions installées, pour les douleurs chroniques.'},
-        {nm:'Massage long',sub:'90 min',pr:'180 CHF',ph:px('6628596'),
-          de:'90 minutes de massage complet et approfondi : détente totale du corps.'}],
-      'Soins esthétiques':[
-        {nm:'Sourcils',sub:'Maquillage permanent',pr:'Sur devis',ph:px('5177990'),
-          de:'Maquillage permanent des sourcils : redessine et densifie pour un regard structuré.'},
-        {nm:'Eye-liner',sub:'Maquillage permanent',pr:'Sur devis',ph:px('3762665'),
-          de:'Trait d\'eye-liner permanent, discret ou marqué, qui tient toute la journée.'},
-        {nm:'Lèvres',sub:'Maquillage permanent',pr:'Sur devis',ph:px('8558247'),
-          de:'Maquillage permanent des lèvres : ravive la couleur et redessine le contour.'},
-        {nm:'Micropigmentation capillaire',sub:'Densité du cuir chevelu',pr:'Sur devis',ph:px('5178051'),
-          de:'Effet de densité sur le cuir chevelu pour camoufler une perte de cheveux.'}]
+        {nm:'Massage classique',sub:'30 / 60 / 90 min',pr:'dès 60 CHF',ph:px('6628649'),
+          de:'Détente musculaire profonde, reconnue ASCA. Réservation sur OneDoc.'},
+        {nm:'Massage sportif',sub:'30 / 60 / 90 min',pr:'dès 60 CHF',ph:px('6628611'),
+          de:'Récupération musculaire pour sportifs et actifs. Réservation sur OneDoc.'},
+        {nm:'Pierres chaudes',sub:'1 h 15',pr:'150 CHF',ph:px('6628701'),
+          de:'Chaleur volcanique pour un relâchement total. Réservation sur OneDoc.'},
+        {nm:'Massage relaxant',sub:'1 h 15',pr:'120 CHF',ph:px('6628596'),
+          de:'Apaisement nerveux profond. Réservation sur OneDoc.'},
+        {nm:'Anti-cellulite',sub:'45 min',pr:'100 CHF',ph:px('6628649'),
+          de:'Drainage et fermeté sur zones ciblées. Réservation sur OneDoc.'}]
     };
     var SLOTS=['09:00','10:00','11:00','14:00','15:00','16:00','17:00'];
     var MONTHS=['janvier','février','mars','avril','mai','juin','juillet','août',
@@ -666,7 +657,8 @@
         'Spécialité : '+st.soin.nm+'\nPrestation : '+st.treat.nm+'\n'+
         'Lieu : '+st.soin.lu+'\nDate : '+st.dateLabel+'\nHeure : '+st.time+'\n'+
         'Tarif : '+st.treat.pr+'\n\nNom : '+nom+'\nTéléphone : '+tel;
-      window.open('https://wa.me/41762306459?text='+encodeURIComponent(txt),'_blank');
+      var subj='Demande de rendez-vous · '+st.soin.nm;
+      window.open('mailto:andrea.isabel.agudelo@gmail.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(txt),'_blank');
       show('done');
       /* redirige a la página d'agradecimiento con info "comment venir" */
       setTimeout(function(){ window.location.href='/merci.html'; }, 700);
