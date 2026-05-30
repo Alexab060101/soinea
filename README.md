@@ -10,7 +10,7 @@ Sitio web de Andrea Agudelo (Soinea) · soins corporels à Fribourg.
 ## Estructura
 
 - `index.html` · home
-- `podologie.html` · `posturologie.html` · `laser.html` · `massages.html` · `esthetique.html` · servicios
+- `podologie.html` · `laser.html` · `massages.html` · `esthetique.html` · servicios
 - `reservas.html` · `contact.html` · reserva y contacto
 - `styles.css` · `motion.js`
 

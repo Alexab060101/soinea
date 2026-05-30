@@ -127,8 +127,7 @@ header.scrolled .burger{background:var(--cream)}
 .hero-text{max-width:840px;text-align:center;margin:0 auto}
 .hero-tag{display:inline-flex;align-items:center;gap:12px;font-size:0.72rem;font-weight:600;
   letter-spacing:0.2em;text-transform:uppercase;color:var(--clay-soft);margin-bottom:24px}
-.hero h1{font-size:clamp(2.7rem,6.8vw,6rem);line-height:1.04;margin-bottom:22px;
-  opacity:0;transition:opacity .8s ease}
+.hero h1{font-size:clamp(2.7rem,6.8vw,6rem);line-height:1.04;margin-bottom:22px}
 .hero.in h1{opacity:1}
 .hero-line{display:block}
 .hero-line.clay{color:var(--clay-soft)}

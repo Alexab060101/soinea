@@ -437,8 +437,6 @@
     var SOINS=[
       {sl:'podologie',nm:'Podologie',lu:'Cabinet MIC · Marly',pr:'dès 40 CHF',
         ph:P+'17056219/pexels-photo-17056219.jpeg?auto=compress&cs=tinysrgb&w=600'},
-      {sl:'posturologie',nm:'Posturologie',lu:'Cabinet MIC · Marly',pr:'120 CHF',
-        ph:P+'5793651/pexels-photo-5793651.jpeg?auto=compress&cs=tinysrgb&w=600'},
       {sl:'laser',nm:'Épilation laser',lu:'Cabinet MIC · Marly',pr:'dès 20 CHF',
         ph:P+'5619456/pexels-photo-5619456.jpeg?auto=compress&cs=tinysrgb&w=600'},
       {sl:'massages',nm:'Massages thérapeutiques',lu:'CrossFit Poya · Granges-Paccot',pr:'dès 60 CHF',
@@ -456,9 +454,6 @@
           de:'Reconstruction d\'un ongle abîmé ou manquant avec une résine, pour un résultat naturel.'},
         {nm:'Silicones orthoplastiques',sub:'Orthèse sur mesure',pr:'40 CHF',ph:px('13059141'),
           de:'Petite orthèse en silicone fabriquée sur mesure pour protéger ou repositionner un orteil.'}],
-      'Posturologie':[
-        {nm:'Étude de la posture',sub:'Bilan complet · 1 heure',pr:'120 CHF',ph:px('5793651'),
-          de:'Bilan complet de votre posture (pieds, bassin, dos) pour trouver la cause d\'un déséquilibre ou d\'une douleur.'}],
       'Épilation laser':[
         {nm:'Lèvre supérieure',sub:'Femme',pr:'20 CHF',ph:px('29746584'),
           de:'Épilation laser progressive de la lèvre supérieure. Plusieurs séances pour un résultat durable.'},
@@ -719,6 +714,9 @@
    y se queda el gradient CSS animado (fogA/fogB) como fondo. */
 (function(){
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  /* solo desktop no-tactil: en movil/tactil queda la brume CSS y NO se descargan Three+Vanta */
+  if (!window.matchMedia('(min-width: 901px)').matches) return;
+  if (window.matchMedia('(pointer: coarse)').matches) return;
   var el = document.getElementById('hero-glow');
   if (!el) return;
 
@@ -786,6 +784,11 @@
     .catch(function(){});
   }
 
-  if (document.readyState !== 'loading') initVanta();
-  else document.addEventListener('DOMContentLoaded', initVanta);
+  /* diferido: el fog arranca tras el render (idle), nunca bloquea el primer pintado */
+  var startFog = function(){
+    if (document.readyState !== 'loading') initVanta();
+    else document.addEventListener('DOMContentLoaded', initVanta);
+  };
+  if ('requestIdleCallback' in window) requestIdleCallback(startFog, { timeout: 2500 });
+  else setTimeout(startFog, 1200);
 })();
