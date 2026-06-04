@@ -709,14 +709,11 @@
   })();
 })();
 
-/* Vanta FOG · solo se carga e inicializa en DESKTOP no-touch con suficiente
-   CPU/RAM. En móvil/touch ni se descargan Three+Vanta (~250 KB gzip menos)
-   y se queda el gradient CSS animado (fogA/fogB) como fondo. */
+/* Vanta FOG · se carga en desktop Y EN MÓVIL. El Vanta es clave en Soinea y NO se
+   quita del móvil. La velocidad se cuida sin tocarlo: carga diferida en idle,
+   pixelRatio=1, scaleMobile=1 y pausa cuando no está visible / pestaña en 2º plano. */
 (function(){
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  /* solo desktop no-tactil: en movil/tactil queda la brume CSS y NO se descargan Three+Vanta */
-  if (!window.matchMedia('(min-width: 901px)').matches) return;
-  if (window.matchMedia('(pointer: coarse)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; /* respeta accesibilidad */
   var el = document.getElementById('hero-glow');
   if (!el) return;
 
