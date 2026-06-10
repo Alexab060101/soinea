@@ -153,13 +153,42 @@ header.scrolled .burger{background:var(--cream)}
 @keyframes cue{0%{transform:translateX(-110%)}100%{transform:translateX(280%)}}
 
 /* ===== Cabecera compacta (páginas de soin, sin hero) ===== */
-.page-head{padding:150px 5vw 26px;background:var(--paper)}
-.page-head .ph-in{max-width:1280px;margin:0 auto}
+.page-head{position:relative;overflow:hidden;padding:160px 5vw 56px;
+  background:linear-gradient(180deg,var(--cream) 0%,var(--paper) 100%)}
+/* brume : deux foyers qui dérivent lentement (hipnótico suave, CSS puro) */
+.page-head::before,.page-head::after{content:'';position:absolute;border-radius:50%;
+  filter:blur(64px);pointer-events:none;z-index:0}
+.page-head::before{width:440px;height:440px;right:-130px;top:-150px;
+  background:rgba(185,203,176,0.55);animation:phDrift 17s ease-in-out infinite alternate}
+.page-head::after{width:360px;height:360px;left:-150px;bottom:-170px;
+  background:rgba(231,220,200,0.85);animation:phDrift 23s ease-in-out infinite alternate-reverse}
+@keyframes phDrift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(46px,32px,0) scale(1.18)}}
+/* palabra gigante en outline al fondo */
+.ph-word{position:absolute;right:-1vw;bottom:-3vw;z-index:0;pointer-events:none;user-select:none;
+  font-family:'Space Grotesk',sans-serif;font-weight:700;line-height:1;letter-spacing:-0.03em;
+  font-size:clamp(4.6rem,15vw,14rem);color:transparent;
+  -webkit-text-stroke:1.5px var(--sand);opacity:.75}
+.page-head .ph-in{position:relative;z-index:1;max-width:1280px;margin:0 auto}
 .page-head h1{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-0.02em;
-  font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.06;margin:14px 0 16px}
+  font-size:clamp(2.3rem,5.4vw,4rem);line-height:1.06;margin:14px 0 16px}
 .page-head h1 em{color:var(--clay);font-style:normal}
-.page-head p{color:var(--ink-2);max-width:640px;font-size:1.05rem;line-height:1.62;margin-bottom:26px}
-@media(max-width:680px){.page-head{padding:124px 5vw 18px}}
+.page-head p{color:var(--ink-2);max-width:640px;font-size:1.05rem;line-height:1.62;margin-bottom:28px}
+/* entrada escalonada */
+.page-head .eyebrow,.page-head h1,.page-head p,.page-head .btn-primary{
+  animation:phUp .85s cubic-bezier(.2,.7,.2,1) both}
+.page-head .eyebrow{animation-delay:.05s}
+.page-head h1{animation-delay:.16s}
+.page-head p{animation-delay:.3s}
+.page-head .btn-primary{animation-delay:.44s}
+@keyframes phUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:680px){
+  .page-head{padding:130px 5vw 40px}
+  .ph-word{right:-4vw;bottom:-2vw}
+}
+@media(prefers-reduced-motion:reduce){
+  .page-head::before,.page-head::after{animation:none}
+  .page-head .eyebrow,.page-head h1,.page-head p,.page-head .btn-primary{animation:none}
+}
 
 /* ===== Botones ===== */
 .btn-primary{display:inline-flex;align-items:center;gap:11px;background:var(--clay);color:var(--cream);
