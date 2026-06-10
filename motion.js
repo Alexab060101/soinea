@@ -315,6 +315,7 @@
     var px=function(id){return P+id+'/pexels-photo-'+id+'.jpeg?auto=compress&cs=tinysrgb&w=600';};
     var SOINS=[
       {sl:'podologie',nm:'Podologie',lu:'Cabinet MIC · Marly',pr:'dès 40 CHF',
+        url:'https://book.agenda.ch/services/pick/group/15023?companyId=18640',
         ph:P+'17056219/pexels-photo-17056219.jpeg?auto=compress&cs=tinysrgb&w=600'},
       {sl:'laser',nm:'Épilation laser',lu:'Cabinet MIC · Marly',pr:'dès 20 CHF',
         ph:P+'5619456/pexels-photo-5619456.jpeg?auto=compress&cs=tinysrgb&w=600'},
@@ -439,6 +440,8 @@
       var s=null,i;
       for(i=0;i<SOINS.length;i++) if(SOINS[i].sl===slug) s=SOINS[i];
       if(!s) s=SOINS[0];
+      /* podologie se reserva directamente en agenda.ch */
+      if(s.url){ window.open(s.url,'_blank','noopener'); return; }
       st.soin=s;st.treat=null;st.date=null;st.time=null;
       var list=TREAT[s.nm]||[];
       if(list.length<=1){ chooseTreat(list[0]||{nm:s.nm,sub:'',pr:s.pr}); return; }
