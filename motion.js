@@ -318,6 +318,7 @@
         url:'https://book.agenda.ch/services/pick/group/15023?companyId=18640',
         ph:P+'17056219/pexels-photo-17056219.jpeg?auto=compress&cs=tinysrgb&w=600'},
       {sl:'laser',nm:'Épilation laser',lu:'Cabinet MIC · Marly',pr:'dès 20 CHF',
+        url:'https://book.agenda.ch/services/pick/group/15024?companyId=18640',
         ph:P+'5619456/pexels-photo-5619456.jpeg?auto=compress&cs=tinysrgb&w=600'},
       {sl:'massages',nm:'Massages thérapeutiques',lu:'CrossFit Poya · Granges-Paccot',pr:'dès 60 CHF',
         ph:P+'6628611/pexels-photo-6628611.jpeg?auto=compress&cs=tinysrgb&w=600'}
@@ -440,7 +441,7 @@
       var s=null,i;
       for(i=0;i<SOINS.length;i++) if(SOINS[i].sl===slug) s=SOINS[i];
       if(!s) s=SOINS[0];
-      /* podologie se reserva directamente en agenda.ch */
+      /* podologie y laser se reservan directamente en agenda.ch */
       if(s.url){ window.open(s.url,'_blank','noopener'); return; }
       st.soin=s;st.treat=null;st.date=null;st.time=null;
       var list=TREAT[s.nm]||[];
