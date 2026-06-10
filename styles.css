@@ -121,8 +121,8 @@ header.scrolled .burger{background:var(--cream)}
 .hero-bg img:only-child{opacity:1}
 @keyframes kenburns{from{transform:scale(1) translate(0,0)}to{transform:scale(1.16) translate(-3%,-2%)}}
 .hero-veil{position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:linear-gradient(180deg,rgba(30,26,22,0.22) 0%,rgba(30,26,22,0.14) 32%,rgba(30,26,22,0.30) 56%,rgba(30,26,22,0.93) 100%),
-  linear-gradient(95deg,rgba(30,26,22,0.74) 0%,rgba(30,26,22,0.24) 60%,rgba(30,26,22,0.04) 100%)}
+  background:linear-gradient(180deg,rgba(30,26,22,0.10) 0%,rgba(30,26,22,0.05) 32%,rgba(30,26,22,0.16) 56%,rgba(30,26,22,0.82) 100%),
+  linear-gradient(95deg,rgba(30,26,22,0.42) 0%,rgba(30,26,22,0.12) 60%,rgba(30,26,22,0.02) 100%)}
 .hero-inner{position:relative;z-index:3;max-width:1280px;margin:0 auto;width:100%}
 .hero-text{max-width:840px;text-align:center;margin:0 auto}
 .hero-tag{display:inline-flex;align-items:center;gap:12px;font-size:0.72rem;font-weight:600;
@@ -350,15 +350,6 @@ footer{background:var(--dark-2);color:rgba(244,238,226,0.6);padding:56px 5vw 32p
   flex-wrap:wrap;gap:12px;font-size:0.73rem;letter-spacing:0.04em}
 .foot-bottom em{color:var(--clay-soft);font-style:normal}
 
-/* ===== Sticky reservar (móvil) ===== */
-.sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:140;display:none;
-  padding:12px 16px;background:rgba(252,249,243,0.96);backdrop-filter:blur(14px);
-  border-top:1px solid var(--line)}
-.sticky-cta a{display:flex;align-items:center;justify-content:center;gap:9px;
-  background:var(--clay);color:var(--cream);padding:15px;border-radius:100px;
-  font-size:0.92rem;font-weight:700}
-@media(max-width:760px){.sticky-cta{display:block}body{padding-bottom:74px}}
-
 /* ===== Cursor + magnetic ===== */
 .magnetic{transition:transform .25s cubic-bezier(.2,.7,.3,1)}
 .cursor{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;width:30px;height:30px;
@@ -389,7 +380,6 @@ footer{background:var(--dark-2);color:rgba(244,238,226,0.6);padding:56px 5vw 32p
 @keyframes vtOut{to{opacity:0;transform:translateY(-14px) scale(.992)}}
 @keyframes vtIn{from{opacity:0;transform:translateY(20px) scale(.994)}}
 header.head-bar{view-transition-name:site-header}
-.sticky-cta{view-transition-name:site-sticky}
 .progress{view-transition-name:site-progress}
 
 /* ---- Reveal escalonado: respeta el retardo --d por elemento ---- */
@@ -698,7 +688,6 @@ header.head-bar{view-transition-name:site-header}
   /* backdrop-filter blur es de los efectos más caros en GPU móvil cada vez
      que el contenido detrás se mueve. En móvil sustituimos por opacidad sólida. */
   header.scrolled{backdrop-filter:none;background:rgba(252,249,243,0.98)}
-  .sticky-cta{backdrop-filter:none;background:rgba(252,249,243,0.98)}
   .booking::before{opacity:0.6}
 }
 /* menu-overlay siempre en DOM: cuando cerrado no debe pintar nada */

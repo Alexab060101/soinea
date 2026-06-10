@@ -188,129 +188,8 @@
     });
   }
 
-  /* Cartas apiladas (estilo Jack, horizontal). Funciona en CUALQUIER
-     sección con clase .hpin: si no trae la estructura .hpin-sticky, el
-     JS la construye a partir de su rejilla (.dept-grid / .svc-grid).
-     La sección se fija; al hacer scroll las cartas se apilan. Si la
-     sección tiene un .hpin-parking, una fase final lo hace subir. */
-  (function(){
-    var sections=[].slice.call(document.querySelectorAll('.hpin'));
-    if(!sections.length||reduce) return;
-
-    sections.forEach(function(sec){
-      var track=sec.querySelector('.hpin-track');
-      /* construir la estructura si la sección no la trae (no contact) */
-      if(!sec.querySelector('.hpin-sticky')){
-        var wrap=sec.querySelector('.wrap');
-        var grid=sec.querySelector('.dept-grid,.svc-grid,.hpin-track');
-        if(!grid) return;
-        grid.classList.add('hpin-track');
-        var sticky=document.createElement('div'); sticky.className='hpin-sticky';
-        if(wrap) sticky.appendChild(wrap);
-        sticky.appendChild(grid);
-        sec.appendChild(sticky);
-        track=grid;
-      }
-      if(!track) return;
-      var cards=[].slice.call(track.children);
-      cards.forEach(function(c){ c.classList.add('hpin-card'); c.classList.remove('reveal'); });
-      var n=cards.length;
-      if(n<2) return;
-      var parking=sec.querySelector('.hpin-parking');
-
-      /* botón "Tout voir": pop-up con todas las cartas en rejilla, sin
-         tener que apilarlas una a una */
-      var head=sec.querySelector('.section-head');
-      if(head && n>=3 && !parking){
-        var vt=document.createElement('button');
-        vt.type='button'; vt.className='see-all-btn';
-        vt.textContent='Tout voir d’un coup';
-        head.appendChild(vt);
-        var am=document.createElement('div'); am.className='all-modal';
-        var amBox=document.createElement('div'); amBox.className='all-modal-box';
-        var amX=document.createElement('button'); amX.className='all-modal-x';
-        amX.setAttribute('aria-label','Fermer'); amX.textContent='✕';
-        var amG=document.createElement('div'); amG.className='all-modal-grid';
-        cards.forEach(function(c){
-          var cl=c.cloneNode(true);
-          cl.classList.remove('hpin-card');
-          cl.style.transform=''; cl.style.zIndex='';
-          amG.appendChild(cl);
-        });
-        amBox.appendChild(amX); amBox.appendChild(amG);
-        am.appendChild(amBox); document.body.appendChild(am);
-        function closeAm(){ am.classList.remove('open'); document.body.classList.remove('menu-open'); }
-        vt.addEventListener('click',function(){
-          am.classList.add('open'); document.body.classList.add('menu-open');
-        });
-        amX.addEventListener('click',closeAm);
-        am.addEventListener('click',function(e){ if(e.target===am) closeAm(); });
-        document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeAm(); });
-      }
-
-      var PER=0.88, HOLD=0.4, EDGE=Math.min(18,Math.round(34/(n-1)));
-      var phases=(n-1)+(parking?1:0);
-      var push=0, vh0=0, active=false, target=0, cur=0, rafId=null;
-
-      function setup(){
-        push=window.innerWidth;
-        vh0=window.innerHeight;
-        sec.style.height=(vh0*(1+phases*PER))+'px';
-        cards.forEach(function(c,i){ c.style.zIndex=i+1; });
-      }
-      function ease(t){ return t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
-      function apply(prog){
-        var cardEnd=parking?(n-1)/phases:1;
-        var cardProg=Math.min(1,prog/cardEnd);
-        for(var i=0;i<n;i++){
-          if(i===0){ cards[i].style.transform='translate3d(0,0,0)'; continue; }
-          var raw=cardProg*(n-1)-(i-1);
-          var li=Math.min(1,Math.max(0,(raw-HOLD)/(1-HOLD)));
-          var x=i*EDGE+(1-ease(li))*push;
-          cards[i].style.transform='translate3d('+x.toFixed(1)+'px,0,0)';
-        }
-        if(parking){
-          var pk=Math.max(0,Math.min(1,(prog-cardEnd)/(1-cardEnd)));
-          var pe=ease(pk);
-          parking.style.transform='translate3d(0,calc(-50% + '+((1-pe)*vh0*0.82).toFixed(1)+'px),0)';
-          parking.style.opacity=Math.min(1,pk*4).toFixed(3);
-          track.style.transform='scale('+(1-pe*0.16).toFixed(3)+')';
-          track.style.opacity=(1-pe*0.9).toFixed(3);
-        }
-      }
-      function computeTarget(){
-        var rect=sec.getBoundingClientRect();
-        var dist=sec.offsetHeight-vh0;
-        target=dist>0?Math.min(1,Math.max(0,-rect.top/dist)):0;
-      }
-      function loop(){
-        cur+=(target-cur)*0.11;
-        var done=Math.abs(target-cur)<0.0005;
-        if(done) cur=target;
-        apply(cur);
-        rafId = done ? null : requestAnimationFrame(loop);
-      }
-      function kick(){ if(active&&!rafId) rafId=requestAnimationFrame(loop); }
-      function evaluate(){
-        var mob=window.innerWidth<=900;
-        if(mob&&!active){active=true;sec.classList.add('hpin--on');setup();
-          computeTarget();cur=target;apply(cur);}
-        else if(!mob&&active){active=false;
-          if(rafId){cancelAnimationFrame(rafId);rafId=null;}
-          sec.classList.remove('hpin--on');sec.style.height='';
-          cards.forEach(function(c){c.style.transform='';c.style.zIndex='';});
-          track.style.transform='';track.style.opacity='';
-          if(parking){parking.style.transform='';parking.style.opacity='';}}
-        else if(active){setup();computeTarget();kick();}
-      }
-      window.addEventListener('scroll',function(){
-        if(active){computeTarget();kick();}
-      },{passive:true});
-      window.addEventListener('resize',evaluate);
-      window.addEventListener('load',evaluate);
-      evaluate();
-    });
-  })();
+  /* (efecto de cartas apiladas "Jack" eliminado a petición de Andrea:
+     las rejillas .hpin se muestran como grid normal / carrusel CSS en móvil) */
 
   /* Testimonios: banda de reseñas. 1 reseña = estática (mismo diseño);
      2+ = bucle infinito. El botón "+ avis" añade reseñas de ejemplo y,
@@ -448,8 +327,8 @@
           de:'Traitement ciblé d\'un problème précis : ongle incarné, cor ou durillon. Idéal pour une gêne localisée.'},
         {nm:'Soin complet',sub:'45 min · soin global du pied',pr:'110 CHF',ph:px('4963837'),
           de:'Soin global des deux pieds : ongles, cors, callosités et hydratation, pour des pieds nets et sains.'},
-        {nm:'Ortonyxie',sub:'Bride pour ongle incarné',pr:'80 CHF',ph:px('4963822'),
-          de:'Pose d\'une petite bride sur l\'ongle pour corriger en douceur un ongle incarné, sans chirurgie.'},
+        {nm:'Pédicure médicale',sub:'Traitement de l\'ongle incarné',pr:'80 CHF',ph:px('4963822'),
+          de:'Traitement en douceur de l\'ongle incarné, sans chirurgie, pour supprimer la douleur au pied.'},
         {nm:'Prothèse unguéale',sub:'Reconstruction en résine',pr:'60 CHF',ph:px('7755554'),
           de:'Reconstruction d\'un ongle abîmé ou manquant avec une résine, pour un résultat naturel.'},
         {nm:'Silicones orthoplastiques',sub:'Orthèse sur mesure',pr:'40 CHF',ph:px('13059141'),
@@ -479,7 +358,10 @@
         {nm:'Anti-cellulite',sub:'45 min',pr:'100 CHF',ph:px('6628649'),
           de:'Drainage et fermeté sur zones ciblées. Réservation sur OneDoc.'}]
     };
-    var SLOTS=['09:00','10:00','11:00','14:00','15:00','16:00','17:00'];
+    /* horaires Cabinet MIC : lundi et mercredi 8h-19h, samedi 8h-13h */
+    var SLOTS_WEEK=['08:00','09:00','10:00','11:00','12:00','14:00','15:00','16:00','17:00','18:00'];
+    var SLOTS_SAT=['08:00','09:00','10:00','11:00','12:00'];
+    function slotsFor(d){ return d&&d.getDay()===6 ? SLOTS_SAT : SLOTS_WEEK; }
     var MONTHS=['janvier','février','mars','avril','mai','juin','juillet','août',
                 'septembre','octobre','novembre','décembre'];
     var WD=['L','M','M','J','V','S','D'];
@@ -511,7 +393,7 @@
         '<button class="cal-nav" id="rmCalPrev">‹</button><h4 id="rmCalLabel"></h4>'+
         '<button class="cal-nav" id="rmCalNext">›</button></div>'+
         '<div class="cal-grid" id="rmCalGrid"></div>'+
-        '<p class="cal-hint">Andrea reçoit sur rendez-vous. Dimanche fermé.</p></div></div></div>'+
+        '<p class="cal-hint">Uniquement sur rendez-vous · lundi et mercredi 8h – 19h, samedi 8h – 13h.</p></div></div></div>'+
       '<div class="rm" id="rmTime"><div class="rm-box">'+
         '<button class="rm-x" data-rmclose>✕</button>'+
         '<button class="rm-back" id="rmTimeBack">‹ Changer de jour</button>'+
@@ -567,7 +449,7 @@
         b.className='pick-row';
         b.innerHTML='<img class="pph" src="'+(t.ph||s.ph)+'" alt="" loading="lazy">'+
           '<span class="ptx"><span class="pn">'+t.nm+'</span>'+
-          '<span class="ps">'+t.sub+'</span></span><span class="pp">'+t.pr+'</span>'+
+          '<span class="ps">'+t.sub+'</span></span>'+
           '<button type="button" class="pick-info" aria-label="En savoir plus">i</button>';
         b.addEventListener('click',function(){chooseTreat(t);});
         b.querySelector('.pick-info').addEventListener('click',function(e){
@@ -583,7 +465,7 @@
       infoT=t;
       I('rmInfoPh').src=t.ph||st.soin.ph;
       I('rmInfoT').textContent=t.nm;
-      I('rmInfoPr').textContent=t.sub+' · '+t.pr;
+      I('rmInfoPr').textContent=t.sub;
       I('rmInfoD').textContent=t.de||'';
       show('info');
     }
@@ -613,7 +495,9 @@
         var d=new Date(view.getFullYear(),view.getMonth(),i);
         var btn=document.createElement('button');
         btn.type='button';btn.className='cal-day';btn.textContent=i;
-        if(d<today||d.getDay()===0){btn.disabled=true;}
+        /* Cabinet MIC (podologie + laser) : uniquement lundi, mercredi et samedi */
+        var openDays=(st.soin&&st.soin.sl==='massages')?[1,2,3,4,5,6]:[1,3,6];
+        if(d<today||openDays.indexOf(d.getDay())===-1){btn.disabled=true;}
         else{(function(d){btn.addEventListener('click',function(){
           st.date=d;st.dateLabel=d.getDate()+' '+MONTHS[d.getMonth()]+' '+d.getFullYear();
           openTime();});})(d);}
@@ -629,7 +513,7 @@
     function openTime(){
       I('rmTimeR').textContent=st.treat.nm+' · '+st.dateLabel;
       var box=I('rmSlots');box.innerHTML='';
-      SLOTS.forEach(function(t){
+      slotsFor(st.date).forEach(function(t){
         var b=document.createElement('button');
         b.type='button';b.className='slot';b.textContent=t;
         b.addEventListener('click',function(){st.time=t;openForm();});
@@ -653,8 +537,8 @@
       if(!ok) return;
       var txt='Bonjour Andrea, je souhaite prendre rendez-vous.\n\n'+
         'Spécialité : '+st.soin.nm+'\nPrestation : '+st.treat.nm+'\n'+
-        'Lieu : '+st.soin.lu+'\nDate : '+st.dateLabel+'\nHeure : '+st.time+'\n'+
-        'Tarif : '+st.treat.pr+'\n\nNom : '+nom+'\nTéléphone : '+tel;
+        'Lieu : '+st.soin.lu+'\nDate : '+st.dateLabel+'\nHeure : '+st.time+'\n\n'+
+        'Nom : '+nom+'\nTéléphone : '+tel;
       var subj='Demande de rendez-vous · '+st.soin.nm;
       window.open('mailto:andrea.isabel.agudelo@gmail.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(txt),'_blank');
       show('done');
@@ -670,7 +554,7 @@
         b.type='button';b.className='book-card';
         b.innerHTML='<div class="ph"><img src="'+s.ph+'" alt="" loading="lazy"></div>'+
           '<div class="bd"><div class="nm">'+s.nm+'</div><div class="lu">'+s.lu+'</div>'+
-          '<div class="pr">'+s.pr+'<span class="go">Réserver →</span></div></div>';
+          '<div class="pr"><span class="go">Réserver →</span></div></div>';
         b.addEventListener('click',function(){openBooking(s.sl);});
         bg.appendChild(b);
       });
@@ -741,10 +625,10 @@
           minWidth: 200,
           scale: 1,
           scaleMobile: 1,
-          highlightColor: 0xc9b687,
-          midtoneColor: 0x9c8c6a,
-          lowlightColor: 0x6e7463,
-          baseColor: 0x352a1f,
+          highlightColor: 0xd9c89e,
+          midtoneColor: 0xb0a07c,
+          lowlightColor: 0x848a76,
+          baseColor: 0x554738,
           blurFactor: 0.4,
           speed: 0.7,
           zoom: 1.4
