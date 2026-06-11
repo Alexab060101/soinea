@@ -650,7 +650,7 @@
     return dist>0?Math.min(1,Math.max(0,-r.top/dist)):0;
   }
   function loop(){
-    frame+=(target-frame)*0.16;
+    frame+=(target-frame)*0.22;
     if(Math.abs(target-frame)<0.4){ frame=target; draw(); rafId=null; return; }
     draw(); rafId=requestAnimationFrame(loop);
   }
