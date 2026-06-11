@@ -100,6 +100,12 @@ header.scrolled .burger{background:var(--cream)}
   .menu-links a{flex-direction:column;align-items:flex-start;gap:3px}
 }
 
+/* ===== Hero scrubbed par scroll (wrapper alto + hero sticky, patrón validado) ===== */
+.hero-scroll{position:relative;height:260vh}
+.hero-scroll .hero{position:sticky;top:0;height:100svh;min-height:0}
+#heroSeq{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;background:#1E1A16}
+@media(prefers-reduced-motion:reduce){.hero-scroll{height:auto}.hero-scroll .hero{position:relative}}
+
 /* ===== Hero plein écran ===== */
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;
   padding:140px 5vw 140px;background:var(--dark);color:var(--paper);overflow:hidden;isolation:isolate;

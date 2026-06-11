@@ -597,6 +597,73 @@
   })();
 })();
 
+/* ===== Hero vídeo scrubbed por scroll (canvas + secuencia de frames, vanilla) =====
+   El wrapper .hero-scroll mide 260vh y el hero queda sticky: el scroll
+   avanza el vídeo frame a frame (89 webp en /assets/hero-seq/). */
+(function(){
+  var canvas=document.getElementById('heroSeq');
+  if(!canvas) return;
+  var wrap=document.getElementById('heroScroll');
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var COUNT=89, DIR='/assets/hero-seq/';
+  var ctx=canvas.getContext('2d');
+  var imgs=new Array(COUNT), cur=-1, frame=0, target=0, rafId=null;
+
+  function src(i){ return DIR+'f_'+String(i+1).padStart(3,'0')+'.webp'; }
+  function size(){
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    canvas.width=canvas.clientWidth*dpr;
+    canvas.height=canvas.clientHeight*dpr;
+    cur=-1; draw(true);
+  }
+  function draw(force){
+    var f=Math.max(0,Math.min(COUNT-1,Math.round(frame)));
+    var img=imgs[f];
+    if(!img||!img.complete||!img.naturalWidth){
+      /* aún no cargado: usa el frame cargado más cercano hacia atrás */
+      img=null;
+      for(var k=f;k>=0;k--){ if(imgs[k]&&imgs[k].complete&&imgs[k].naturalWidth){ img=imgs[k]; f=k; break; } }
+      if(!img) return;
+    }
+    if(f===cur&&!force) return;
+    cur=f;
+    var cw=canvas.width,ch=canvas.height,ir=img.width/img.height,cr=cw/ch,w,h;
+    if(ir>cr){ h=ch; w=ch*ir; } else { w=cw; h=cw/ir; }   /* cover */
+    ctx.drawImage(img,(cw-w)/2,(ch-h)/2,w,h);
+  }
+  function load(i,cb){
+    if(imgs[i]) return;
+    var im=new Image();
+    if(cb) im.onload=cb;
+    im.src=src(i); imgs[i]=im;
+  }
+  load(0,function(){ size(); });
+  function loadRest(){
+    for(var i=1;i<COUNT;i++) load(i, i===COUNT-1?function(){ draw(true); }:null);
+  }
+  if('requestIdleCallback' in window) requestIdleCallback(loadRest,{timeout:1800});
+  else setTimeout(loadRest,700);
+
+  function progress(){
+    var r=wrap.getBoundingClientRect();
+    var dist=wrap.offsetHeight-window.innerHeight;
+    return dist>0?Math.min(1,Math.max(0,-r.top/dist)):0;
+  }
+  function loop(){
+    frame+=(target-frame)*0.16;
+    if(Math.abs(target-frame)<0.4){ frame=target; draw(); rafId=null; return; }
+    draw(); rafId=requestAnimationFrame(loop);
+  }
+  function onScroll(){
+    target=progress()*(COUNT-1);
+    if(reduce){ frame=target; draw(); return; }
+    if(!rafId) rafId=requestAnimationFrame(loop);
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',function(){ size(); onScroll(); });
+  size(); onScroll();
+})();
+
 /* Vanta FOG · se carga en desktop Y EN MÓVIL. El Vanta es clave en Soinea y NO se
    quita del móvil. La velocidad se cuida sin tocarlo: carga diferida en idle,
    pixelRatio=1, scaleMobile=1 y pausa cuando no está visible / pestaña en 2º plano. */
