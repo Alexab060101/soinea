@@ -336,7 +336,22 @@
           de:'Reconstruction d\'un ongle abîmé ou manquant avec une résine, pour un résultat naturel.'},
         {nm:'Silicones orthoplastiques',sub:'Orthèse sur mesure',pr:'40 CHF',ph:px('18441298'),
           de:'Petite orthèse en silicone fabriquée sur mesure pour protéger ou repositionner un orteil.'}],
-      'Épilation laser':[],
+      'Épilation laser':[
+        {nm:'Dos',sub:'45 min',pr:'',ph:px('8874601'),de:''},
+        {nm:'Torse',sub:'45 min',pr:'',ph:px('5850592'),de:''},
+        {nm:'Bras',sub:'30 min',pr:'',ph:px('16032298'),de:''},
+        {nm:'Aisselles',sub:'30 min',pr:'',ph:px('8517480'),de:''},
+        {nm:'Bikini',sub:'30 min',pr:'',ph:px('16032366'),de:''},
+        {nm:'Bikini intégral',sub:'30 min',pr:'',ph:px('36930858'),de:''},
+        {nm:'Cuisses',sub:'45 min',pr:'',ph:px('35103885'),de:''},
+        {nm:'Demi-jambes',sub:'45 min',pr:'',ph:px('36930637'),de:''},
+        {nm:'Jambes complètes',sub:'60 min',pr:'',ph:px('19239114'),de:''},
+        {nm:'Contour de barbe',sub:'15 min',pr:'',ph:px('6628291'),de:''},
+        {nm:'Nuque',sub:'15 min',pr:'',ph:px('7956498'),de:''},
+        {nm:'Oreilles',sub:'15 min',pr:'',ph:px('6319017'),de:''},
+        {nm:'Nez',sub:'10 min',pr:'',ph:px('6568097'),de:''},
+        {nm:'Lèvre supérieure',sub:'15 min',pr:'',ph:px('7290081'),de:''},
+        {nm:'Visage complet',sub:'30 min',pr:'',ph:px('4586728'),de:''}],
       'Massages thérapeutiques':[
         {nm:'Massage classique',sub:'30 / 60 / 90 min',pr:'dès 60 CHF',ph:px('6628649'),
           de:'Détente musculaire profonde, reconnue ASCA. Réservation sur OneDoc.'},
@@ -569,9 +584,11 @@
       if(card.querySelector('.svc-photo')) return;
       var h=card.querySelector('h3'); if(!h) return;
       var nm=h.textContent.trim(),hit=null;
+      /* 1º coincidencia exacta (evita que "Bikini" pise "Bikini intégral") */
+      allT.forEach(function(t){ if(!hit&&t.nm===nm) hit=t; });
       allT.forEach(function(t){
         if(hit) return;
-        if(t.nm===nm||t.nm.indexOf(nm)===0||nm.indexOf(t.nm)===0) hit=t;
+        if(t.nm.indexOf(nm)===0||nm.indexOf(t.nm)===0) hit=t;
       });
       if(hit&&hit.ph){
         var im=document.createElement('img');
