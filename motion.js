@@ -314,10 +314,10 @@
     var P='https://images.pexels.com/photos/';
     var px=function(id){return P+id+'/pexels-photo-'+id+'.jpeg?auto=compress&cs=tinysrgb&w=600';};
     var SOINS=[
-      {sl:'podologie',nm:'Podologie',lu:'Cabinet MIC · Marly',pr:'dès 40 CHF',
+      {sl:'podologie',nm:'Podologie',lu:'Physio Cuennet (MIC) · Marly',pr:'dès 40 CHF',
         url:'https://book.agenda.ch/services/pick/group/15023?companyId=18640',
         ph:P+'5793976/pexels-photo-5793976.jpeg?auto=compress&cs=tinysrgb&w=600'},
-      {sl:'laser',nm:'Épilation laser',lu:'Cabinet MIC · Marly',pr:'dès 20 CHF',
+      {sl:'laser',nm:'Épilation laser',lu:'Physio Cuennet (MIC) · Marly',pr:'dès 20 CHF',
         url:'https://book.agenda.ch/services/pick/group/15024?companyId=18640',
         ph:P+'5619456/pexels-photo-5619456.jpeg?auto=compress&cs=tinysrgb&w=600'},
       {sl:'massages',nm:'Massages thérapeutiques',lu:'CrossFit Poya · Granges-Paccot',pr:'dès 60 CHF',
