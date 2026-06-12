@@ -321,6 +321,7 @@
         url:'https://book.agenda.ch/services/pick/group/15024?companyId=18640',
         ph:P+'5619456/pexels-photo-5619456.jpeg?auto=compress&cs=tinysrgb&w=600'},
       {sl:'massages',nm:'Massages thérapeutiques',lu:'CrossFit Poya · Granges-Paccot',pr:'dès 60 CHF',
+        url:'https://www.onedoc.ch/fr/masseuse-classique/fribourg/pc3kr/andrea-agudelo',
         ph:P+'6628611/pexels-photo-6628611.jpeg?auto=compress&cs=tinysrgb&w=600'}
     ];
     var TREAT={
@@ -329,25 +330,13 @@
           de:'Traitement ciblé d\'un problème précis : ongle incarné, cor ou durillon. Idéal pour une gêne localisée.'},
         {nm:'Soin complet',sub:'45 min · soin global du pied',pr:'110 CHF',ph:px('4963837'),
           de:'Soin global des deux pieds : ongles, cors, callosités et hydratation, pour des pieds nets et sains.'},
-        {nm:'Pédicure médicale',sub:'Traitement de l\'ongle incarné',pr:'80 CHF',ph:px('4963822'),
-          de:'Traitement en douceur de l\'ongle incarné, sans chirurgie, pour supprimer la douleur au pied.'},
+        {nm:'Orthonyxie',sub:'Appareil pour ongle incarné',pr:'80 CHF',ph:px('4963822'),
+          de:'Pose d\'un appareil correcteur (BS ou attelle en titane) pour redresser en douceur l\'ongle incarné, sans chirurgie.'},
         {nm:'Prothèse unguéale',sub:'Reconstruction en résine',pr:'60 CHF',ph:px('7755554'),
           de:'Reconstruction d\'un ongle abîmé ou manquant avec une résine, pour un résultat naturel.'},
         {nm:'Silicones orthoplastiques',sub:'Orthèse sur mesure',pr:'40 CHF',ph:px('13059141'),
           de:'Petite orthèse en silicone fabriquée sur mesure pour protéger ou repositionner un orteil.'}],
-      'Épilation laser':[
-        {nm:'Lèvre supérieure',sub:'Femme',pr:'20 CHF',ph:px('29746584'),
-          de:'Épilation laser progressive de la lèvre supérieure. Plusieurs séances pour un résultat durable.'},
-        {nm:'Menton',sub:'Femme',pr:'30 CHF',ph:px('7321548'),
-          de:'Épilation laser du menton, séance courte et précise.'},
-        {nm:'Visage complet',sub:'Femme',pr:'50 CHF',ph:px('4046570'),
-          de:'Épilation laser de l\'ensemble du visage, zones du duvet incluses.'},
-        {nm:'Contour de barbe',sub:'Homme',pr:'40 CHF',ph:px('11024140'),
-          de:'Dessin et entretien net de la ligne de barbe au laser.'},
-        {nm:'Nuque · cou',sub:'Homme',pr:'40 CHF',ph:px('9486651'),
-          de:'Épilation laser de la nuque et du cou, zones difficiles à entretenir soi-même.'},
-        {nm:'Nez · oreilles',sub:'Homme',pr:'dès 20 CHF',ph:px('5069506'),
-          de:'Épilation laser des poils du nez et des oreilles, en toute sécurité.'}],
+      'Épilation laser':[],
       'Massages thérapeutiques':[
         {nm:'Massage classique',sub:'30 / 60 / 90 min',pr:'dès 60 CHF',ph:px('6628649'),
           de:'Détente musculaire profonde, reconnue ASCA. Réservation sur OneDoc.'},
@@ -412,13 +401,13 @@
         '<div><label>Téléphone</label><input type="tel" id="rmTel" required></div>'+
         '<span class="rm-err" id="rmErr">Indiquez votre nom et votre téléphone.</span>'+
         '<label class="rm-check"><input type="checkbox" id="rmRgpd" required>'+
-        '<span>J\'accepte d\'être contacté·e par Andrea pour confirmer le rendez-vous.</span></label>'+
+        '<span>J\'accepte d\'être contacté·e pour confirmer le rendez-vous.</span></label>'+
         '<button type="submit" class="rm-btn">Envoyer la demande →</button>'+
         '<p class="rm-mini">Annulation gratuite jusqu\'à 24 h avant le rendez-vous.</p>'+
         '</form></div></div>'+
       '<div class="rm" id="rmDone"><div class="rm-box"><div class="rm-done">'+
         '<div class="ic">✓</div><h3>Demande envoyée</h3>'+
-        '<p>Andrea a reçu votre demande et vous confirme le créneau sous 24 heures.</p>'+
+        '<p>Votre demande est bien reçue. Le créneau vous sera confirmé sous 24 heures.</p>'+
         '<div class="acts"><a href="/index.html" class="a1">Accueil</a>'+
         '<a class="a2" data-rmclose href="#">Fermer</a></div></div></div></div>';
     document.body.appendChild(root);
@@ -441,7 +430,7 @@
       var s=null,i;
       for(i=0;i<SOINS.length;i++) if(SOINS[i].sl===slug) s=SOINS[i];
       if(!s) s=SOINS[0];
-      /* podologie y laser se reservan directamente en agenda.ch */
+      /* todas las reservas son externas: agenda.ch (podologie, laser) y OneDoc (massages) */
       if(s.url){ window.open(s.url,'_blank','noopener'); return; }
       st.soin=s;st.treat=null;st.date=null;st.time=null;
       var list=TREAT[s.nm]||[];
@@ -539,12 +528,12 @@
       var ok=nom.length>=2&&tel.length>=4&&rg;
       I('rmErr').classList.toggle('on',!ok);
       if(!ok) return;
-      var txt='Bonjour Andrea, je souhaite prendre rendez-vous.\n\n'+
+      var txt='Bonjour, je souhaite prendre rendez-vous.\n\n'+
         'Spécialité : '+st.soin.nm+'\nPrestation : '+st.treat.nm+'\n'+
         'Lieu : '+st.soin.lu+'\nDate : '+st.dateLabel+'\nHeure : '+st.time+'\n\n'+
         'Nom : '+nom+'\nTéléphone : '+tel;
       var subj='Demande de rendez-vous · '+st.soin.nm;
-      window.open('mailto:andrea.isabel.agudelo@gmail.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(txt),'_blank');
+      window.open('mailto:Contact@soinea.ch?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(txt),'_blank');
       show('done');
       /* redirige a la página d'agradecimiento con info "comment venir" */
       setTimeout(function(){ window.location.href='/merci.html'; }, 700);
@@ -595,73 +584,6 @@
     var q=new URLSearchParams(location.search).get('soin');
     if(q) openBooking(q);
   })();
-})();
-
-/* ===== Hero vídeo scrubbed por scroll (canvas + secuencia de frames, vanilla) =====
-   El wrapper .hero-scroll mide 260vh y el hero queda sticky: el scroll
-   avanza el vídeo frame a frame (89 webp en /assets/hero-seq/). */
-(function(){
-  var canvas=document.getElementById('heroSeq');
-  if(!canvas) return;
-  var wrap=document.getElementById('heroScroll');
-  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var COUNT=89, DIR='/assets/hero-seq/';
-  var ctx=canvas.getContext('2d');
-  var imgs=new Array(COUNT), cur=-1, frame=0, target=0, rafId=null;
-
-  function src(i){ return DIR+'f_'+String(i+1).padStart(3,'0')+'.webp'; }
-  function size(){
-    var dpr=Math.min(window.devicePixelRatio||1,2);
-    canvas.width=canvas.clientWidth*dpr;
-    canvas.height=canvas.clientHeight*dpr;
-    cur=-1; draw(true);
-  }
-  function draw(force){
-    var f=Math.max(0,Math.min(COUNT-1,Math.round(frame)));
-    var img=imgs[f];
-    if(!img||!img.complete||!img.naturalWidth){
-      /* aún no cargado: usa el frame cargado más cercano hacia atrás */
-      img=null;
-      for(var k=f;k>=0;k--){ if(imgs[k]&&imgs[k].complete&&imgs[k].naturalWidth){ img=imgs[k]; f=k; break; } }
-      if(!img) return;
-    }
-    if(f===cur&&!force) return;
-    cur=f;
-    var cw=canvas.width,ch=canvas.height,ir=img.width/img.height,cr=cw/ch,w,h;
-    if(ir>cr){ h=ch; w=ch*ir; } else { w=cw; h=cw/ir; }   /* cover */
-    ctx.drawImage(img,(cw-w)/2,(ch-h)/2,w,h);
-  }
-  function load(i,cb){
-    if(imgs[i]) return;
-    var im=new Image();
-    if(cb) im.onload=cb;
-    im.src=src(i); imgs[i]=im;
-  }
-  load(0,function(){ size(); });
-  function loadRest(){
-    for(var i=1;i<COUNT;i++) load(i, i===COUNT-1?function(){ draw(true); }:null);
-  }
-  if('requestIdleCallback' in window) requestIdleCallback(loadRest,{timeout:1800});
-  else setTimeout(loadRest,700);
-
-  function progress(){
-    var r=wrap.getBoundingClientRect();
-    var dist=wrap.offsetHeight-window.innerHeight;
-    return dist>0?Math.min(1,Math.max(0,-r.top/dist)):0;
-  }
-  function loop(){
-    frame+=(target-frame)*0.22;
-    if(Math.abs(target-frame)<0.4){ frame=target; draw(); rafId=null; return; }
-    draw(); rafId=requestAnimationFrame(loop);
-  }
-  function onScroll(){
-    target=progress()*(COUNT-1);
-    if(reduce){ frame=target; draw(); return; }
-    if(!rafId) rafId=requestAnimationFrame(loop);
-  }
-  window.addEventListener('scroll',onScroll,{passive:true});
-  window.addEventListener('resize',function(){ size(); onScroll(); });
-  size(); onScroll();
 })();
 
 /* Vanta FOG · se carga en desktop Y EN MÓVIL. El Vanta es clave en Soinea y NO se
