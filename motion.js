@@ -316,7 +316,7 @@
     var SOINS=[
       {sl:'podologie',nm:'Podologie',lu:'Cabinet MIC · Marly',pr:'dès 40 CHF',
         url:'https://book.agenda.ch/services/pick/group/15023?companyId=18640',
-        ph:P+'17056219/pexels-photo-17056219.jpeg?auto=compress&cs=tinysrgb&w=600'},
+        ph:'/assets/podologie-soin.webp'},
       {sl:'laser',nm:'Épilation laser',lu:'Cabinet MIC · Marly',pr:'dès 20 CHF',
         url:'https://book.agenda.ch/services/pick/group/15024?companyId=18640',
         ph:P+'5619456/pexels-photo-5619456.jpeg?auto=compress&cs=tinysrgb&w=600'},
@@ -326,9 +326,9 @@
     ];
     var TREAT={
       'Podologie':[
-        {nm:'Soin partiel',sub:'30 min · ongle incarné, cor',pr:'80 CHF',ph:px('5619459'),
+        {nm:'Soin partiel',sub:'30 min · ongle incarné, cor',pr:'80 CHF',ph:'/assets/podologie-soin.webp',
           de:'Traitement ciblé d\'un problème précis : ongle incarné, cor ou durillon. Idéal pour une gêne localisée.'},
-        {nm:'Soin complet',sub:'45 min · soin global du pied',pr:'110 CHF',ph:px('5619447'),
+        {nm:'Soin complet',sub:'45 min · soin global du pied',pr:'110 CHF',ph:'/assets/podologie-cabinet.webp',
           de:'Soin global des deux pieds : ongles, cors, callosités et hydratation, pour des pieds nets et sains.'},
         {nm:'Orthonyxie',sub:'Appareil pour ongle incarné',pr:'80 CHF',ph:px('17056221'),
           de:'Pose d\'un appareil correcteur (BS ou attelle en titane) pour redresser en douceur l\'ongle incarné, sans chirurgie.'},
@@ -345,7 +345,7 @@
         {nm:'Bikini intégral',sub:'30 min',pr:'',ph:px('36930858'),de:''},
         {nm:'Cuisses',sub:'45 min',pr:'',ph:px('35103885'),de:''},
         {nm:'Demi-jambes',sub:'45 min',pr:'',ph:px('36930637'),de:''},
-        {nm:'Jambes complètes',sub:'60 min',pr:'',ph:px('19239114'),de:''},
+        {nm:'Jambes complètes',sub:'60 min',pr:'',ph:px('26850851'),de:''},
         {nm:'Contour de barbe',sub:'15 min',pr:'',ph:px('6628291'),de:''},
         {nm:'Nuque',sub:'15 min',pr:'',ph:px('7956498'),de:''},
         {nm:'Oreilles',sub:'15 min',pr:'',ph:px('6319017'),de:''},
