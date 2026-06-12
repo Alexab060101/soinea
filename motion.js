@@ -325,16 +325,18 @@
         ph:P+'6628611/pexels-photo-6628611.jpeg?auto=compress&cs=tinysrgb&w=600'}
     ];
     var TREAT={
+      /* Podología SIN fotos por tratamiento (decisión Andrea: una foto que no
+         corresponde al tratamiento no apoya nada visual) */
       'Podologie':[
-        {nm:'Soin partiel',sub:'30 min · ongle incarné, cor',pr:'80 CHF',ph:'/assets/podologie-soin.webp',
+        {nm:'Soin partiel',sub:'30 min · ongle incarné, cor',pr:'80 CHF',ph:'',
           de:'Traitement ciblé d\'un problème précis : ongle incarné, cor ou durillon. Idéal pour une gêne localisée.'},
-        {nm:'Soin complet',sub:'45 min · soin global du pied',pr:'110 CHF',ph:'/assets/podologie-cabinet.webp',
+        {nm:'Soin complet',sub:'45 min · soin global du pied',pr:'110 CHF',ph:'',
           de:'Soin global des deux pieds : ongles, cors, callosités et hydratation, pour des pieds nets et sains.'},
-        {nm:'Orthonyxie',sub:'Appareil pour ongle incarné',pr:'80 CHF',ph:px('17056221'),
+        {nm:'Orthonyxie',sub:'Appareil pour ongle incarné',pr:'80 CHF',ph:'',
           de:'Pose d\'un appareil correcteur (BS ou attelle en titane) pour redresser en douceur l\'ongle incarné, sans chirurgie.'},
-        {nm:'Prothèse unguéale',sub:'Reconstruction en résine',pr:'60 CHF',ph:px('34930127'),
+        {nm:'Prothèse unguéale',sub:'Reconstruction en résine',pr:'60 CHF',ph:'',
           de:'Reconstruction d\'un ongle abîmé ou manquant avec une résine, pour un résultat naturel.'},
-        {nm:'Silicones orthoplastiques',sub:'Orthèse sur mesure',pr:'40 CHF',ph:px('18441298'),
+        {nm:'Silicones orthoplastiques',sub:'Orthèse sur mesure',pr:'40 CHF',ph:'',
           de:'Petite orthèse en silicone fabriquée sur mesure pour protéger ou repositionner un orteil.'}],
       'Épilation laser':[
         {nm:'Dos',sub:'45 min',pr:'',ph:px('8874601'),de:''},
