@@ -357,11 +357,11 @@
           de:'Détente musculaire profonde, reconnue ASCA. Réservation sur OneDoc.'},
         {nm:'Massage sportif',sub:'30 / 60 / 90 min',pr:'dès 60 CHF',ph:px('6628611'),
           de:'Récupération musculaire pour sportifs et actifs. Réservation sur OneDoc.'},
-        {nm:'Pierres chaudes',sub:'1 h 15',pr:'150 CHF',ph:px('6628701'),
+        {nm:'Pierres chaudes',sub:'1 h 15',pr:'150 CHF',ph:px('6560266'),
           de:'Chaleur volcanique pour un relâchement total. Réservation sur OneDoc.'},
         {nm:'Massage relaxant',sub:'1 h 15',pr:'120 CHF',ph:px('6628596'),
           de:'Apaisement nerveux profond. Réservation sur OneDoc.'},
-        {nm:'Anti-cellulite',sub:'45 min',pr:'100 CHF',ph:px('6628649'),
+        {nm:'Anti-cellulite',sub:'45 min',pr:'100 CHF',ph:px('10893344'),
           de:'Drainage et fermeté sur zones ciblées. Réservation sur OneDoc.'}]
     };
     /* horaires Cabinet MIC : lundi et mercredi 8h-19h, samedi 8h-13h */
