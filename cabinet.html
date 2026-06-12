@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#1E1A16">
 <meta name="color-scheme" content="light">
-<title>Prendre rendez-vous · Andrea Agudelo · Fribourg</title>
-<meta name="description" content="Réservez votre soin avec Andrea Agudelo : podologie, épilation laser et massages dans le canton de Fribourg.">
+<title>Le cabinet · Soinea · Podologie et thérapies à Fribourg</title>
+<meta name="description" content="Le cabinet Soinea : podologie et pédicure médicale, épilation au laser à diode et massages thérapeutiques ASCA dans le canton de Fribourg. Une approche globale du soin.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.pexels.com" crossorigin>
@@ -14,28 +14,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500..700&family=Inter:wght@300..600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css?v=20260612">
 <link rel="icon" type="image/svg+xml" href="/assets/soinea-mark.svg">
-<style>
-.bk{max-width:980px;margin:0 auto;padding:140px 5vw 80px;min-height:72vh}
-.bk-head{text-align:center;margin-bottom:34px}
-.bk-head .eyebrow{justify-content:center}
-.bk-head h1{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-0.02em;
-  font-size:clamp(2.1rem,5.2vw,3.4rem);line-height:1.05;margin:14px 0 10px}
-.bk-head h1 em{color:var(--clay);font-style:normal}
-.bk-head p{color:var(--grey);max-width:460px;margin:0 auto}
-.bk-note{text-align:center;font-size:0.84rem;color:var(--grey);margin-top:28px}
-@media(max-width:680px){.bk{padding:118px 5vw 60px}}
-</style>
-<script>document.documentElement.className+=" js"</script>
 </head>
 <body>
 
+<div class="progress" id="progress"></div>
 <header class="head-bar scrolled" id="header">
   <a href="/index.html" class="logo">
     <span class="mark svg-mark"><img src="/assets/soinea-mark.svg" alt="Soinea"></span>
     <span><span class="n">soinea</span><span class="t">Podologie et thérapies</span></span>
   </a>
   <div class="nav-right">
-    <a href="/reservas.html" class="nav-cta-mini">Rendez-vous</a>
+    <a href="/reservas.html" class="nav-cta-mini magnetic">Rendez-vous</a>
     <button class="burger" id="burger" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
   </div>
 </header>
@@ -52,7 +41,7 @@
       <a href="/laser.html">Épilation laser</a>
       <a href="/massages.html">Massages thérapeutiques</a>
       <a href="/cabinet.html">Le cabinet</a>
-      <a href="/contact.html">Contact</a>
+      <a href="/contact.html">Contact &amp; rendez-vous</a>
     </nav>
   </div>
   <div class="menu-foot">
@@ -61,17 +50,35 @@
   </div>
 </div>
 
-<main class="bk">
-  <div class="bk-head">
-    <div class="eyebrow">Rendez-vous</div>
-    <h1>Réservez en <em>quelques clics</em>.</h1>
-    <p>Choisissez la spécialité : la prestation exacte, le jour et l'heure se réservent en ligne, en quelques clics.</p>
+<!-- CABECERA COMPACTA -->
+<section class="page-head">
+  <div class="ph-word" aria-hidden="true">Soinea</div>
+  <div class="ph-in">
+    <div class="eyebrow">Le cabinet · Canton de Fribourg</div>
+    <h1>Une approche <em>globale</em> du soin.</h1>
+    <p>Du pied à la peau : podologie, épilation au laser à diode et massages thérapeutiques reconnus ASCA, dans deux lieux du canton de Fribourg.</p>
+    <a href="/reservas.html" class="btn-primary magnetic">Prendre rendez-vous →</a>
   </div>
+</section>
 
-  <div class="book-grid" id="bookGrid"></div>
-
-  <p class="bk-note">Confirmation de votre rendez-vous sous 24 heures.</p>
-</main>
+<!-- PRÉSENTATION -->
+<section class="apropos" id="apropos">
+  <div class="wrap">
+    <div class="apropos-grid">
+      <div class="apropos-photo reveal" id="aproposPhoto">
+        <!-- foto de Andrea: cuando llegue, sustituir este placeholder por
+             <img class="portrait" src="/assets/andrea.jpg" alt="Podologue diplômée du cabinet Soinea, canton de Fribourg"> -->
+        <img src="/assets/soinea-mark.svg" alt="" style="width:78px;opacity:.45">
+      </div>
+      <div class="apropos-text reveal">
+        <p>Diplômée en podologie de l'Université Miguel Hernández d'Elche, je travaille en pédicure médicale depuis 2019, d'abord en Espagne, aujourd'hui dans le canton de Fribourg.</p>
+        <p>Mon approche est globale : je prends en charge le pied dans sa fonction autant que dans son confort, avec une attention particulière à la biomécanique et à la posturologie.</p>
+        <p>Certifiée O-LRNIS pour l'épilation au laser à diode, je propose des séances sûres et adaptées à tous les types de peau, pour femmes et hommes.</p>
+        <p>Masseuse thérapeutique reconnue ASCA, je pratique également les massages relaxants, sportifs et thérapeutiques : un complément naturel aux soins podologiques pour accompagner la récupération et le bien-être.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <footer>
   <div class="foot-grid">
