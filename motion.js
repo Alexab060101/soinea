@@ -316,7 +316,7 @@
     var SOINS=[
       {sl:'podologie',nm:'Podologie',lu:'Cabinet MIC · Marly',pr:'dès 40 CHF',
         url:'https://book.agenda.ch/services/pick/group/15023?companyId=18640',
-        ph:'/assets/podologie-soin.webp'},
+        ph:P+'5793976/pexels-photo-5793976.jpeg?auto=compress&cs=tinysrgb&w=600'},
       {sl:'laser',nm:'Épilation laser',lu:'Cabinet MIC · Marly',pr:'dès 20 CHF',
         url:'https://book.agenda.ch/services/pick/group/15024?companyId=18640',
         ph:P+'5619456/pexels-photo-5619456.jpeg?auto=compress&cs=tinysrgb&w=600'},
