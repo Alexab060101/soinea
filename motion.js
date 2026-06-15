@@ -314,10 +314,10 @@
     var P='https://images.pexels.com/photos/';
     var px=function(id){return P+id+'/pexels-photo-'+id+'.jpeg?auto=compress&cs=tinysrgb&w=600';};
     var SOINS=[
-      {sl:'podologie',nm:'Podologie',lu:'Physio Cuennet (MIC) · Marly',pr:'dès 40 CHF',
+      {sl:'podologie',nm:'Podologie',lu:'Physio Cuennet MIC · Marly',pr:'dès 40 CHF',
         url:'https://book.agenda.ch/services/pick/group/15023?companyId=18640',
         ph:P+'5793976/pexels-photo-5793976.jpeg?auto=compress&cs=tinysrgb&w=600'},
-      {sl:'laser',nm:'Épilation laser',lu:'Physio Cuennet (MIC) · Marly',pr:'dès 20 CHF',
+      {sl:'laser',nm:'Épilation laser',lu:'Physio Cuennet MIC · Marly',pr:'dès 20 CHF',
         url:'https://book.agenda.ch/services/pick/group/15024?companyId=18640',
         ph:P+'5619456/pexels-photo-5619456.jpeg?auto=compress&cs=tinysrgb&w=600'},
       {sl:'massages',nm:'Massages thérapeutiques',lu:'CrossFit Poya · Granges-Paccot',pr:'dès 60 CHF',
@@ -366,7 +366,7 @@
         {nm:'Anti-cellulite',sub:'45 min',pr:'100 CHF',ph:px('10893344'),
           de:'Drainage et fermeté sur zones ciblées. Réservation sur OneDoc.'}]
     };
-    /* horaires Cabinet MIC : lundi et mercredi 8h-19h, samedi 8h-13h */
+    /* horaires Physio Cuennet MIC : lundi et mercredi 8h-19h, samedi 8h-13h */
     var SLOTS_WEEK=['08:00','09:00','10:00','11:00','12:00','14:00','15:00','16:00','17:00','18:00'];
     var SLOTS_SAT=['08:00','09:00','10:00','11:00','12:00'];
     function slotsFor(d){ return d&&d.getDay()===6 ? SLOTS_SAT : SLOTS_WEEK; }
@@ -505,7 +505,7 @@
         var d=new Date(view.getFullYear(),view.getMonth(),i);
         var btn=document.createElement('button');
         btn.type='button';btn.className='cal-day';btn.textContent=i;
-        /* Cabinet MIC (podologie + laser) : uniquement lundi, mercredi et samedi */
+        /* Physio Cuennet MIC (podologie + laser) : uniquement lundi, mercredi et samedi */
         var openDays=(st.soin&&st.soin.sl==='massages')?[1,2,3,4,5,6]:[1,3,6];
         if(d<today||openDays.indexOf(d.getDay())===-1){btn.disabled=true;}
         else{(function(d){btn.addEventListener('click',function(){
