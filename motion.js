@@ -250,12 +250,12 @@
       },{passive:true});
 
       var si=0;
-      function buildSet(ariaHidden){
-        var set=document.createElement('div'); set.className='testi-set';
-        if(ariaHidden) set.setAttribute('aria-hidden','true');
-        reviews.forEach(function(c){ set.appendChild(c.cloneNode(true)); });
-        return set;
-      }
+      /* Una "mitad" = las reseñas repetidas hasta llenar de sobra el viewport.
+         El track lleva DOS mitades IDÉNTICAS; la animación mueve -50% (una mitad
+         exacta) => bucle perfecto, sin huecos. La duración se fija por velocidad
+         constante en px/s sobre el ancho de UNA mitad => misma velocidad en TODOS
+         los dispositivos (móvil, Windows, Mac). */
+      var SPEED=50; // px por segundo (lento y suave, estilo de la marca)
       function render(){
         grid.innerHTML='';
         mtrack.innerHTML=''; mdots.innerHTML='';
@@ -265,18 +265,20 @@
           var d=document.createElement('b'); if(idx===0) d.className='on'; mdots.appendChild(d);
         });
         if(reviews.length>=2){
-          /* relleno hasta que el track tenga >= 2.2x el viewport, en pares
-             para que translate(-50%) loop sin huecos */
-          grid.appendChild(buildSet(false));
-          grid.appendChild(buildSet(true));
-          var pairs=1, vw=window.innerWidth||1400, safety=8;
-          while(grid.scrollWidth < vw*2.2 && pairs<safety){
-            grid.appendChild(buildSet(true));
-            grid.appendChild(buildSet(true));
-            pairs++;
-          }
-          /* velocidad constante ~70px/s, escala con el ancho total */
-          var dur=Math.max(22, Math.round((grid.scrollWidth/2)/70));
+          var vw=window.innerWidth||1400;
+          /* mitad: repetir las reseñas hasta cubrir > 1.3x el viewport */
+          var mitad=document.createElement('div'); mitad.className='testi-set';
+          grid.appendChild(mitad);
+          var guard=0;
+          do {
+            reviews.forEach(function(c){ mitad.appendChild(c.cloneNode(true)); });
+            guard++;
+          } while(mitad.scrollWidth < vw*1.3 && guard<12);
+          var anchoMitad=mitad.scrollWidth;
+          /* segunda mitad = clon EXACTO de la primera => -50% loopea sin salto */
+          var clon=mitad.cloneNode(true); clon.setAttribute('aria-hidden','true');
+          grid.appendChild(clon);
+          var dur=Math.max(12, Math.round(anchoMitad/SPEED));
           grid.style.animation='testiSlide '+dur+'s linear infinite';
           grid.classList.remove('testi-static');
         }else{
@@ -303,6 +305,9 @@
         render();
       });
       render();
+      /* re-medir cuando las fuentes carguen: evita anchos mal calculados (la causa
+         de que en algún equipo, p.ej. Mac, fuera a otra velocidad) */
+      if(document.fonts && document.fonts.ready){ document.fonts.ready.then(render); }
     });
   })();
 
