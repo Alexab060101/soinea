@@ -73,3 +73,15 @@ Qué cambia:
   desleal (LCD). En su lugar, «Comment ça se passe»: tres pasos reales de una
   sesión. Si Andrea quiere reseñas, que sean las suyas de Google.
 - Foco visible en teclado, sombras y radios afinados.
+
+### 24/08/2026 · la silueta, en versión clínica
+
+Las ilustraciones de posturología llevan ahora el esqueleto insinuado dentro de
+la silueta: columna cervical y las cinco lumbares, clavículas, caja torácica con
+esternón delante, húmero y cúbito/radio, pelvis (alas ilíacas, sacro, ramas
+púbicas), cabezas femorales, fémur, rótula, tibia y peroné, y los metatarsos.
+Es lo que da el aire de lámina médica de las referencias que mandó Andrea.
+
+La línea del *bassin* pasa por las crestas ilíacas, no por el medio del hueso.
+La pelvis va hueca (contorno + relleno muy suave): rellena se leía como una
+mancha. Sigue siendo SVG: ~7 KB y nítido a cualquier tamaño.
