@@ -1,0 +1,123 @@
+/* =========================================================================
+   soinea · capa v2 — mejoras de diseño sobre styles.css
+   Se carga DESPUÉS de styles.css. No sustituye nada: solo afina.
+   ========================================================================= */
+
+:root{
+  --v2-shadow:0 1px 2px rgba(33,28,24,.04),0 10px 30px rgba(33,28,24,.07);
+  --v2-shadow-lg:0 2px 6px rgba(33,28,24,.05),0 26px 60px rgba(33,28,24,.13);
+}
+
+/* ---- Accesibilidad: foco visible en todo lo que se puede pulsar ---- */
+a:focus-visible,button:focus-visible,summary:focus-visible{
+  outline:2px solid var(--clay);outline-offset:3px;border-radius:8px}
+
+/* =======================  HERO  ======================= */
+/* La foto del gabinete es azulada y fría y choca con el crema de la marca.
+   La calentamos y le bajamos la saturación para que entre en la paleta. */
+.hero-bg img{filter:saturate(.68) sepia(.16) contrast(1.05) brightness(.94)}
+
+/* Velo más trabajado: viñeta radial que centra la mirada en el titular
+   + degradado vertical que ancla el pie. Antes el texto competía con la silla. */
+.hero-veil{background:
+  radial-gradient(115% 85% at 50% 40%,rgba(30,26,22,.22) 0%,rgba(30,26,22,.55) 58%,rgba(30,26,22,.80) 100%),
+  linear-gradient(180deg,rgba(30,26,22,.58) 0%,rgba(30,26,22,.26) 26%,rgba(30,26,22,.44) 62%,rgba(30,26,22,.93) 100%)}
+
+/* El subtítulo y los botones dependían de que el JS pusiera .hero-in.
+   Si el JS tarda, el hero se queda sin llamada a la acción. Ahora entran solos. */
+.hero-sub,.hero-actions{opacity:1;transform:none;
+  animation:v2rise .85s cubic-bezier(.2,.9,.3,1) both}
+.hero-sub{animation-delay:.30s}
+.hero-actions{animation-delay:.46s}
+@keyframes v2rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){
+  .hero-sub,.hero-actions{animation:none}
+}
+.hero h1{text-shadow:0 2px 30px rgba(30,26,22,.35)}
+.hero-sub{max-width:520px;color:rgba(244,238,226,.94)}
+
+/* Logo legible mientras el header va sobre la foto.
+   Acotado a la portada con :has(.hero): en las paginas interiores el fondo
+   es crema y el JS tambien quita .scrolled al estar arriba del todo. */
+body:has(.hero) header.head-bar:not(.scrolled) .logo .n{color:#F7F2E8}
+body:has(.hero) header.head-bar:not(.scrolled) .logo .t{color:rgba(247,242,232,.74)}
+body:has(.hero) header.head-bar:not(.scrolled) .burger{background:rgba(252,249,243,.14);
+  border-color:rgba(247,242,232,.38);backdrop-filter:blur(8px)}
+body:has(.hero) header.head-bar:not(.scrolled) .burger span{background:#F7F2E8}
+
+/* Botones del hero: el fantasma casi no se veía sobre la foto */
+.hero-actions .btn-ghost{border-color:rgba(247,242,232,.55);color:#F7F2E8;
+  background:rgba(30,26,22,.22);backdrop-filter:blur(6px)}
+.hero-actions .btn-ghost:hover{background:rgba(252,249,243,.94);color:var(--ink);
+  border-color:transparent}
+
+/* =======================  TARJETAS DE SERVICIO  ======================= */
+.dept-card{border-radius:20px;box-shadow:var(--v2-shadow)}
+.dept-card:hover{box-shadow:var(--v2-shadow-lg)}
+/* El velo subía demasiado pronto y apagaba la foto entera */
+.dept-card::after{background:linear-gradient(180deg,
+  rgba(30,26,22,0) 0%,rgba(30,26,22,.06) 38%,rgba(30,26,22,.55) 66%,rgba(30,26,22,.93) 100%)}
+.dept-card h3{letter-spacing:-.012em}
+.dept-card .go{opacity:.9}
+
+/* Banda de contacto ancha: antes era una 4ª tarjeta huérfana en su fila */
+.v2-band{margin-top:22px;border:1px solid var(--line);border-radius:20px;
+  background:var(--paper);padding:34px 36px;display:flex;align-items:center;
+  justify-content:space-between;gap:26px;flex-wrap:wrap;
+  transition:border-color .3s,transform .45s cubic-bezier(.2,.9,.3,1)}
+.v2-band:hover{border-color:var(--clay-soft);transform:translateY(-3px)}
+.v2-band .v2-txt h3{font-size:1.5rem;margin-bottom:6px}
+.v2-band .v2-txt p{color:var(--ink-2);font-size:.94rem;max-width:52ch}
+.v2-band .v2-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;flex:0 0 auto}
+.v2-band .v2-actions a{white-space:nowrap}
+.v2-band .v2-txt{flex:1 1 320px}
+
+/* =======================  CÓMO SE PASA (sustituye a los avis)  ======================= */
+.v2-steps{padding:110px 0;background:var(--cream)}
+.v2-step-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.v2-step{background:var(--paper);border:1px solid var(--line);border-radius:18px;
+  padding:34px 30px 32px;position:relative;overflow:hidden}
+.v2-step .num{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--clay);margin-bottom:16px}
+.v2-step h3{font-size:1.32rem;line-height:1.18;margin-bottom:10px}
+.v2-step p{color:var(--ink-2);font-size:.95rem;line-height:1.66}
+.v2-step::before{content:'';position:absolute;left:0;top:0;width:3px;height:100%;
+  background:var(--clay-soft);opacity:.55}
+
+/* =======================  BARRA DE RESERVA EN MÓVIL  ======================= */
+/* Un negocio de citas: en el móvil el botón de reservar debe estar siempre a mano. */
+.v2-mcta{display:none}
+@media(max-width:820px){
+  .v2-mcta{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:210;gap:10px;
+    padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));
+    background:rgba(252,249,243,.93);backdrop-filter:blur(14px);
+    border-top:1px solid var(--line);box-shadow:0 -6px 24px rgba(33,28,24,.08)}
+  .v2-mcta a{flex:1;text-align:center;padding:14px 10px;border-radius:100px;
+    font-size:.88rem;font-weight:600;letter-spacing:.01em;line-height:1}
+  .v2-mcta .p{background:var(--ink);color:var(--paper);flex:1.55}
+  .v2-mcta .s{border:1px solid var(--line);color:var(--ink);background:var(--paper)}
+  body{padding-bottom:78px}
+  .v2-mcta{transition:opacity .3s}
+  /* con el menu abierto la barra estorba */
+  body:has(.menu-overlay.open) .v2-mcta{opacity:0;pointer-events:none}
+}
+
+/* =======================  AFINADO GENERAL  ======================= */
+.svc-card,.t-card,.faq-item{box-shadow:var(--v2-shadow)}
+.chips-inner .chip{transition:transform .35s cubic-bezier(.2,.9,.3,1),border-color .35s}
+.chips-inner .chip:hover{transform:translateY(-3px);border-color:var(--clay-soft)}
+.btn-primary{box-shadow:0 10px 26px rgba(33,28,24,.16)}
+.btn-primary:hover{box-shadow:0 14px 34px rgba(33,28,24,.22)}
+.posture-fig{box-shadow:var(--v2-shadow)}
+/* Tipografía: los títulos largos rompían mal en pantallas medianas */
+.section-head h2,.hero h1{text-wrap:balance}
+/* .btn-ghost esta pensado para el hero oscuro: sobre la banda clara no se leia */
+.v2-band .btn-ghost{border-color:var(--line);color:var(--ink);background:var(--paper)}
+.v2-band .btn-ghost:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+@media(max-width:600px){
+  .v2-band{padding:28px 24px}
+  .v2-band .v2-actions{width:100%}
+  .v2-band .v2-actions a{flex:1;text-align:center}
+  .v2-steps{padding:74px 0}
+}

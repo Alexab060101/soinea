@@ -43,3 +43,33 @@
 - FAQ y datos estructurados de `posturologie.html`: pregunta nueva sobre quién realiza el
   bilan, con su titulación.
 - `?v=` subido a `20260824` en las 7 páginas.
+
+## 24/08/2026 · versión v2 (propuesta, NO publicada como principal)
+
+Rediseño en archivos aparte: `*-v2.html` + `styles-v2.css`. La web que ve el
+público (`soinea.ch`) **no se ha tocado**. Las v2 llevan `noindex` para que
+Google no las tome como contenido duplicado.
+
+Qué cambia:
+
+- **Hero.** La foto del gabinete es azulada y fría y chocaba con el crema de la
+  marca: se calienta por CSS (`filter`). Velo rehecho con viñeta, que el titular
+  competía con la silla. El logo «soinea» era ilegible sobre la foto: ahora es
+  claro mientras el header va encima del hero (acotado con `:has(.hero)`, porque
+  en las páginas interiores el fondo es crema).
+- **El subtítulo y los botones del hero dependían de que el JS pusiera `.hero.in`.**
+  Si el JS tarda, el hero se queda sin llamada a la acción. Ahora entran con
+  animación CSS propia y son visibles aunque el JS no llegue.
+- **Barra de reserva fija en móvil** (`Prendre rendez-vous` + `Appeler`). Es un
+  negocio de citas: en el móvil el botón debe estar siempre a mano.
+- **Tarjetas de servicio:** el velo oscuro subía demasiado y apagaba la foto.
+- **La tarjeta «Parlons-en» era una 4ª tarjeta huérfana** en su propia fila:
+  pasa a banda ancha con teléfono.
+- **Años de experiencia: 18 → 7.** El texto de la propia Andrea dice que ejerce
+  desde 2019.
+- **Fuera los avis inventados.** Eran tres testimonios con nombres falsos
+  («Marie L.», «Thomas B.», «Christine M.») y fotos de stock de Pexels,
+  presentados como pacientes reales del cantón. En Suiza eso es competencia
+  desleal (LCD). En su lugar, «Comment ça se passe»: tres pasos reales de una
+  sesión. Si Andrea quiere reseñas, que sean las suyas de Google.
+- Foco visible en teclado, sombras y radios afinados.
