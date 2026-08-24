@@ -2,6 +2,7 @@
 
 | Fecha | Qué | Quién lo pidió |
 |---|---|---|
+| 2026-08-24 | Texto **À propos** corregido por Andrea (incluye su diploma en reprogramación postural global, principios de 2026, y las plantillas ortopédicas). Ilustraciones propias de posturología en SVG. Botón de reserva de Posturología apuntando a su prestación real. | Andrea, WhatsApp del 20/08/2026 |
 | 2026-08-17 | Fuera masajes y CrossFit Poya. En su sitio, **Posturologie** (`posturologie.html`). Un solo lugar: Physio Cuennet MIC, Marly. Horario **Lu · Ma · Me 8h – 19h** (fuera el sábado) en toda la web. | Andrea, WhatsApp del 12/08/2026 |
 
 ## Detalle del 17/08/2026
@@ -18,3 +19,27 @@
 - `?v=` de `styles.css` y `motion.js` subido a `20260817`; sin eso el navegador
   serviría el CSS y el JS viejos durante un año (`vercel.json` los marca
   `immutable`).
+
+## Detalle del 24/08/2026
+
+- **À propos** (`index.html`): sustituido por el texto que envió Andrea el 20/08 ya corregido.
+  Entra su diploma en reprogramación postural global (principios de 2026) y las plantillas
+  ortopédicas a medida, que no estaban.
+- **Ilustraciones propias, en SVG vectorial** (`assets/posture-*.svg`), dibujadas con la paleta
+  de la web. Sustituyen a la foto provisional del gabinete. Andrea había mandado capturas de
+  Google Imágenes como referencia: tienen derechos, no se podían publicar.
+  - `posture-card.svg` — silueta sobre fondo oscuro, para la tarjeta de la portada.
+  - `posture-axes.svg` — comparativa desequilibrio / alineación, para pantalla ancha.
+  - `posture-axes-mobile.svg` — la misma, apilada, para móvil (`.posture-wide` /
+    `.posture-tall` conmutan en `max-width:820px`). En una sola imagen lado a lado el
+    móvil no dejaba leer nada.
+- Sección nueva **«Ce que veut dire être aligné»** (`#principe`) en `posturologie.html`,
+  con los SVG en línea para que hereden la tipografía de la web.
+- **Botón de reserva** de Posturología: ahora apunta a la prestación que Andrea ya tiene
+  creada, *Étude de la marche* (60 min, 130 CHF, grupo PODOLOGIE):
+  `book.agenda.ch/services/pick/group/15023/111216?companyId=18640`.
+  El registro del 17/08 decía que aún no existía; comprobado contra su agenda, sí existe.
+  Si ella prefiere una prestación aparte «Posturologie», se cambia el enlace y ya está.
+- FAQ y datos estructurados de `posturologie.html`: pregunta nueva sobre quién realiza el
+  bilan, con su titulación.
+- `?v=` subido a `20260824` en las 7 páginas.
