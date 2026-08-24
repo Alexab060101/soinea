@@ -85,3 +85,17 @@ Es lo que da el aire de lámina médica de las referencias que mandó Andrea.
 La línea del *bassin* pasa por las crestas ilíacas, no por el medio del hueso.
 La pelvis va hueca (contorno + relleno muy suave): rellena se leía como una
 mancha. Sigue siendo SVG: ~7 KB y nítido a cualquier tamaño.
+
+### 24/08/2026 · la silueta, más humana
+
+El contorno estaba hecho de tramos casi rectos y se leía como un maniquí. Se ha
+redibujado entero con curvas: cuello ancho y corto, trapecio, deltoides
+redondeado, cintura, cadera, muslo con volumen, gemelo, tobillo fino y pie con
+empeine. Los brazos caen pegados al torso — antes quedaba un hueco de muñeco de
+jengibre en la axila.
+
+La mitad derecha se define una sola vez (`silueta.py`) y la izquierda se genera
+por reflexión, así la simetría es exacta.
+
+Además: degradado lateral que da volumen de cilindro al cuerpo, y sombra
+difuminada bajo los pies para que se apoye en el suelo en vez de flotar.
