@@ -750,3 +750,17 @@ header.head-bar{view-transition-name:site-header}
   .scroll-cue .line::after,.testi-track,.marquee-track{animation:none}
   .hero-bg::before,.hero-bg::after,.hero-bg img.active{animation:none}
 }
+
+/* ===== Schéma postural (page posturologie) ===== */
+.posture-sec{padding:100px 0;background:var(--paper)}
+.posture-frame{margin:0}
+.posture-fig{width:100%;height:auto;display:block;border-radius:18px;
+  border:1px solid var(--line);background:var(--paper)}
+.posture-frame figcaption{margin-top:24px;color:var(--ink-2);font-size:0.95rem;
+  line-height:1.7;max-width:760px}
+.posture-tall{display:none}
+@media(max-width:820px){
+  .posture-sec{padding:70px 0}
+  .posture-wide{display:none}
+  .posture-tall{display:block}
+}

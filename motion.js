@@ -200,7 +200,7 @@
     var AV=['6766741','16779595','8560805'];
     var SAMPLES=[
       {q:'Accueil très chaleureux et soin impeccable. Je reviendrai sans hésiter.',n:'Camille D.',m:'Marly'},
-      {q:'Andrea prend le temps d\'expliquer chaque étape. On se sent en confiance.',n:'Marc V.',m:'Granges-Paccot'},
+      {q:'Andrea prend le temps d\'expliquer chaque étape. On se sent en confiance.',n:'Marc V.',m:'Villars-sur-Glâne'},
       {q:'Des années de gêne réglées en quelques séances. Un grand merci.',n:'Nadia K.',m:'Fribourg'},
       {q:'Professionnelle, ponctuelle et vraiment à l\'écoute. Je recommande.',n:'Élise P.',m:'Villars-sur-Glâne'},
       {q:'Un soin sur mesure, sans jamais se sentir pressé. Parfait.',n:'Thomas R.',m:'Marly'}
@@ -325,9 +325,9 @@
       {sl:'laser',nm:'Épilation laser',lu:'Physio Cuennet MIC · Marly',pr:'dès 20 CHF',
         url:'https://book.agenda.ch/services/pick/group/15024?companyId=18640',
         ph:P+'5619456/pexels-photo-5619456.jpeg?auto=compress&cs=tinysrgb&w=600'},
-      {sl:'massages',nm:'Massages thérapeutiques',lu:'CrossFit Poya · Granges-Paccot',pr:'dès 60 CHF',
-        url:'https://www.onedoc.ch/fr/masseuse-classique/fribourg/pc3kr/andrea-agudelo',
-        ph:P+'6628611/pexels-photo-6628611.jpeg?auto=compress&cs=tinysrgb&w=600'}
+      {sl:'posturologie',nm:'Posturologie',lu:'Physio Cuennet MIC · Marly',pr:'',
+        url:'https://book.agenda.ch/services/pick?companyId=18640',
+        ph:'/assets/podologie-cabinet.webp'}
     ];
     var TREAT={
       /* Podología SIN fotos por tratamiento (decisión Andrea: una foto que no
@@ -359,22 +359,11 @@
         {nm:'Nez',sub:'10 min',pr:'',ph:px('6568097'),de:''},
         {nm:'Lèvre supérieure',sub:'15 min',pr:'',ph:px('7290081'),de:''},
         {nm:'Visage complet',sub:'30 min',pr:'',ph:px('4586728'),de:''}],
-      'Massages thérapeutiques':[
-        {nm:'Massage classique',sub:'30 / 60 / 90 min',pr:'dès 60 CHF',ph:px('6628649'),
-          de:'Détente musculaire profonde, reconnue ASCA. Réservation sur OneDoc.'},
-        {nm:'Massage sportif',sub:'30 / 60 / 90 min',pr:'dès 60 CHF',ph:px('6628611'),
-          de:'Récupération musculaire pour sportifs et actifs. Réservation sur OneDoc.'},
-        {nm:'Pierres chaudes',sub:'1 h 15',pr:'150 CHF',ph:px('6560266'),
-          de:'Chaleur volcanique pour un relâchement total. Réservation sur OneDoc.'},
-        {nm:'Massage relaxant',sub:'1 h 15',pr:'120 CHF',ph:px('6628596'),
-          de:'Apaisement nerveux profond. Réservation sur OneDoc.'},
-        {nm:'Anti-cellulite',sub:'45 min',pr:'100 CHF',ph:px('10893344'),
-          de:'Drainage et fermeté sur zones ciblées. Réservation sur OneDoc.'}]
+      'Posturologie':[]
     };
-    /* horaires Physio Cuennet MIC : lundi et mercredi 8h-19h, samedi 8h-13h */
+    /* horaires Physio Cuennet MIC : du lundi au mercredi, 8h-19h */
     var SLOTS_WEEK=['08:00','09:00','10:00','11:00','12:00','14:00','15:00','16:00','17:00','18:00'];
-    var SLOTS_SAT=['08:00','09:00','10:00','11:00','12:00'];
-    function slotsFor(d){ return d&&d.getDay()===6 ? SLOTS_SAT : SLOTS_WEEK; }
+    function slotsFor(d){ return SLOTS_WEEK; }
     var MONTHS=['janvier','février','mars','avril','mai','juin','juillet','août',
                 'septembre','octobre','novembre','décembre'];
     var WD=['L','M','M','J','V','S','D'];
@@ -406,7 +395,7 @@
         '<button class="cal-nav" id="rmCalPrev">‹</button><h4 id="rmCalLabel"></h4>'+
         '<button class="cal-nav" id="rmCalNext">›</button></div>'+
         '<div class="cal-grid" id="rmCalGrid"></div>'+
-        '<p class="cal-hint">Uniquement sur rendez-vous · lundi et mercredi 8h – 19h, samedi 8h – 13h.</p></div></div></div>'+
+        '<p class="cal-hint">Uniquement sur rendez-vous · du lundi au mercredi, 8h – 19h.</p></div></div></div>'+
       '<div class="rm" id="rmTime"><div class="rm-box">'+
         '<button class="rm-x" data-rmclose>✕</button>'+
         '<button class="rm-back" id="rmTimeBack">‹ Changer de jour</button>'+
@@ -452,7 +441,7 @@
       var s=null,i;
       for(i=0;i<SOINS.length;i++) if(SOINS[i].sl===slug) s=SOINS[i];
       if(!s) s=SOINS[0];
-      /* todas las reservas son externas: agenda.ch (podologie, laser) y OneDoc (massages) */
+      /* todas las reservas son externas: la agenda de Andrea en agenda.ch */
       if(s.url){ window.open(s.url,'_blank','noopener'); return; }
       st.soin=s;st.treat=null;st.date=null;st.time=null;
       var list=TREAT[s.nm]||[];
@@ -510,8 +499,8 @@
         var d=new Date(view.getFullYear(),view.getMonth(),i);
         var btn=document.createElement('button');
         btn.type='button';btn.className='cal-day';btn.textContent=i;
-        /* Physio Cuennet MIC (podologie + laser) : uniquement lundi, mercredi et samedi */
-        var openDays=(st.soin&&st.soin.sl==='massages')?[1,2,3,4,5,6]:[1,3,6];
+        /* Physio Cuennet MIC : du lundi au mercredi */
+        var openDays=[1,2,3];
         if(d<today||openDays.indexOf(d.getDay())===-1){btn.disabled=true;}
         else{(function(d){btn.addEventListener('click',function(){
           st.date=d;st.dateLabel=d.getDate()+' '+MONTHS[d.getMonth()]+' '+d.getFullYear();

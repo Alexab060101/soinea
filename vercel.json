@@ -1,6 +1,9 @@
 {
   "cleanUrls": false,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/massages.html", "destination": "/posturologie.html", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*).(css|js)",
