@@ -99,3 +99,17 @@ por reflexión, así la simetría es exacta.
 
 Además: degradado lateral que da volumen de cilindro al cuerpo, y sombra
 difuminada bajo los pies para que se apoye en el suelo en vez de flotar.
+
+## 2026-08-28 — Foto de la tarjeta "Épilation laser"
+
+Andrea pidió cambiar la foto de la tarjeta de láser de la portada (piernas sobre
+sábana blanca, hotlink a Pexels) por una foto de sesión real con el aparato de
+diodo, que ella misma envió por WhatsApp.
+
+- Nueva imagen `assets/laser-diode.webp` (1066×1066, 37 KB), recortada en cuadrado
+  sobre el aparato y la pierna, y ajustada en color (menos saturación azul, velo
+  cálido) para que case con la paleta crema del sitio y el texto blanco de la
+  tarjeta mantenga contraste.
+- Se sirve desde el propio dominio: se elimina el último hotlink a
+  images.pexels.com de la portada.
+- Aplicado en `index.html` y en `index-v2.html`.
